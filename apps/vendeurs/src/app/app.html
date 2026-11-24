@@ -1,0 +1,15 @@
+<main class="conteneur">
+  <h1>Espace vendeurs</h1>
+  <p class="info">
+    Produits bientôt en rupture de stock, tels que les clients les voient dans la boutique.
+  </p>
+  @if (produits$ | async; as produits) {
+    <div class="grille">
+      @for (p of produits; track p.id) {
+        <sf-product-card [product]="p" />
+      }
+    </div>
+  } @else {
+    <p class="info">Chargement…</p>
+  }
+</main>
