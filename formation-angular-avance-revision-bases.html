@@ -1,0 +1,1464 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Révision des bases d'Angular</title>
+<style>:root{--bg:#fff;--fg:#1b1f24;--mut:#5b6572;--bd:#d8dee4;--soft:#f6f8fa;--acc:#1f6feb;--acc2:#e8f0fe;
+--ok:#1a7f37;--okbg:#e9f8ee;--warn:#bc4c00;--warnbg:#fff4e5;--pur:#8250df;--purbg:#f3eefe;--tea:#0e7c86;--teabg:#e6f6f7;
+--mono:ui-monospace,SFMono-Regular,"Cascadia Code",Menlo,Consolas,monospace;--sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+
+*{box-sizing:border-box}
+
+html{scroll-behavior:smooth;scroll-padding-top:14px}
+
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 var(--sans);display:flex}
+
+#side{position:sticky;top:0;align-self:flex-start;width:320px;min-width:320px;height:100vh;overflow:auto;border-right:1px solid var(--bd);background:var(--soft);padding:18px 14px 40px;font-size:13.5px}
+
+#main{flex:1;min-width:0;max-width:980px;margin:0 auto;padding:28px 38px 90px}
+
+.brand{display:flex;gap:10px;align-items:center;margin-bottom:14px}
+
+.brand .logo{width:38px;height:38px;border-radius:9px;background:#2f9e44;color:#fff;font-weight:800;display:grid;place-items:center;font-size:20px}
+
+.brand b{display:block;line-height:1.2}
+.brand small{color:var(--mut)}
+
+.navlist,.navlist ul{list-style:none;margin:0;padding:0}
+
+.navlist .np{margin:8px 0}
+
+.navlist .np>a{display:block;font-weight:600;color:var(--fg);text-decoration:none;padding:5px 8px;border-radius:6px}
+
+.navlist .np>a b{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--acc);color:#fff;font-size:11px;margin-right:6px}
+
+.navlist ul{margin:2px 0 0 14px;border-left:2px solid var(--bd)}
+
+.navlist li a{display:block;padding:2px 8px;color:var(--mut);text-decoration:none;border-radius:5px;font-size:12.8px;line-height:1.4}
+
+.navlist a:hover,.navlist a.on{background:var(--acc2);color:#0b3d91}
+
+.nt{display:inline-block;min-width:44px;color:var(--mut);font-variant-numeric:tabular-nums;font-size:11.5px;margin-right:4px}
+
+.tpd{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--warn);margin-right:5px}
+
+#navtoggle{display:none}
+
+h1{font-size:2.1rem;line-height:1.2;margin:.2em 0 .3em}
+
+h2{font-size:1.6rem;margin:0}
+h3{font-size:1.25rem;margin:0}
+h4{font-size:1.02rem;margin:1.3em 0 .5em}
+h5{font-size:1rem;margin:0 0 .4em}
+
+p{margin:.6em 0}
+ul,ol{padding-left:1.4em}
+li{margin:.2em 0}
+
+a{color:var(--acc)}
+
+code{font-family:var(--mono);font-size:.88em;background:#eff1f3;border-radius:5px;padding:.1em .35em}
+
+table{border-collapse:collapse;width:100%;margin:.8em 0;font-size:.93em;display:block;overflow-x:auto}
+
+th,td{border:1px solid var(--bd);padding:6px 10px;text-align:left;vertical-align:top}
+
+th{background:var(--soft)}
+
+.muted{color:var(--mut);font-size:.9em}
+
+.hero{border:1px solid var(--bd);border-radius:14px;padding:26px 28px;background:linear-gradient(135deg,#f0f7ff,#f4fbf2);margin-bottom:26px}
+
+.hero .kicker{color:var(--ok);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:.78rem}
+
+.hero p{color:var(--mut);margin:.3em 0}
+
+.partie{margin-top:46px}
+
+.ph{display:flex;align-items:center;gap:14px;border-bottom:3px solid var(--acc);padding-bottom:10px;margin-bottom:16px;flex-wrap:wrap}
+
+.pn{width:38px;height:38px;border-radius:50%;background:var(--acc);color:#fff;font-weight:800;display:grid;place-items:center;font-size:1.1rem}
+
+.tm{margin-left:auto;background:var(--acc2);color:#0b3d91;border-radius:999px;padding:3px 12px;font-size:.82rem;font-weight:600;white-space:nowrap}
+
+.notion{border:1px solid var(--bd);border-radius:12px;padding:6px 22px 18px;margin:22px 0;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+
+.notion.tp{border-color:#f0c48a;background:#fffdf8}
+
+.nh{display:flex;align-items:center;gap:10px;padding:14px 0 8px;border-bottom:1px solid var(--bd);margin-bottom:6px;flex-wrap:wrap}
+
+.nh .tm{background:#eef1f4;color:var(--mut)}
+
+.badge{background:var(--acc);color:#fff;border-radius:6px;padding:2px 9px;font-size:.78rem;font-weight:700;letter-spacing:.03em}
+
+.tpb{background:var(--warn)}
+
+.chip{background:#eef1f4;color:var(--mut);border-radius:999px;padding:2px 10px;font-size:.78rem;font-weight:600;white-space:nowrap}
+
+.stp h4{display:flex;align-items:center;gap:9px;color:#0b3d91;margin:1.4em 0 .4em}
+
+.stp h4 b{display:inline-grid;place-items:center;width:23px;height:23px;border-radius:50%;background:var(--acc2);border:1px solid #b6ccf5;font-size:.8rem}
+
+.callout{border-left:4px solid var(--acc);background:var(--acc2);border-radius:0 10px 10px 0;padding:8px 16px;margin:14px 0}
+
+.callout .ct{font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
+
+.callout p:first-of-type{margin-top:.2em}
+.callout p:last-child,.callout ul:last-child{margin-bottom:.2em}
+
+.callout.piege{border-color:var(--warn);background:var(--warnbg)}
+.callout.piege .ct{color:var(--warn)}
+
+.callout.retenir{border-color:var(--ok);background:var(--okbg)}
+.callout.retenir .ct{color:var(--ok)}
+
+.callout.formateur{border-color:var(--pur);background:var(--purbg)}
+.callout.formateur .ct{color:var(--pur)}
+
+.callout.experience{border-color:var(--tea);background:var(--teabg)}
+.callout.experience .ct{color:var(--tea)}
+
+.callout.metier .ct{color:#0b3d91}
+
+.callout.apprenant{border-color:var(--pur);background:var(--purbg)}
+
+.objectif,.programme{border:1px dashed #cdbb97;background:#fffaf0;border-radius:10px;padding:8px 16px;margin:12px 0}
+
+.objectif .ct,.programme .ct{font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.05em;color:var(--warn)}
+
+.avous{border:2px solid var(--pur);border-radius:12px;padding:6px 18px 12px;margin:20px 0;background:#fcfbff}
+
+.avh{display:flex;gap:10px;align-items:center;margin:8px 0;flex-wrap:wrap}
+
+.avh .badge{background:var(--pur)}
+.avt{font-weight:700}
+
+.avh .chip{margin-left:auto}
+
+.etape{display:flex;gap:12px;margin:14px 0}
+
+.en{flex:0 0 30px;height:30px;border-radius:50%;background:var(--ok);color:#fff;font-weight:700;display:grid;place-items:center;font-size:.9rem;margin-top:2px}
+
+.eb{flex:1;min-width:0}
+
+.eb h5{font-size:1.02rem}
+
+.resultat{border-top:2px dashed var(--bd);margin-top:16px}
+
+.resultat h4{color:var(--ok)}
+
+.questions{background:var(--soft);border-radius:10px;padding:2px 16px;margin:14px 0}
+
+details{margin:8px 0}
+
+summary{cursor:pointer;font-weight:600}
+
+details.corrige{border:1px solid #9fd6b0;background:#f6fcf8;border-radius:10px;padding:6px 14px;margin:14px 0}
+
+details.corrige>summary{color:var(--ok)}
+
+details.reponses{border:1px solid var(--bd);background:var(--soft);border-radius:10px;padding:6px 14px}
+
+details.final{margin:4px 0 14px}
+details.final>summary{font-size:.85rem;color:var(--mut)}
+
+.faq{border-top:1px solid var(--bd);margin-top:18px}
+
+.faq details{border:1px solid var(--bd);border-radius:8px;padding:6px 12px;background:var(--soft)}
+
+.faq .ans{padding:2px 0 6px}
+
+
+figure{margin:12px 0}
+
+figure.code,figure.term{border:1px solid var(--bd);border-radius:10px;overflow:hidden;background:#f6f8fa}
+
+figcaption{display:flex;align-items:center;gap:10px;padding:6px 10px;background:#eceff3;border-bottom:1px solid var(--bd);font-size:.8rem}
+
+.fpath{font-family:var(--mono);font-weight:600;color:#0b3d91}
+
+.flabel{font-family:var(--mono);color:var(--mut);text-transform:uppercase;font-size:.72rem}
+
+.fmod{background:#fff3c4;color:#6b5400;border-radius:5px;padding:1px 7px;font-weight:600}
+
+.copy{margin-left:auto;border:1px solid #c5ccd4;background:#fff;border-radius:6px;padding:2px 10px;cursor:pointer;font:600 .75rem var(--sans);color:#24292f}
+
+.copy:hover{background:var(--acc2)}
+.copy.ok{background:var(--okbg);border-color:var(--ok);color:var(--ok)}
+
+pre{margin:0;padding:10px 0;overflow:auto;font:13.2px/1.55 var(--mono);tab-size:2}
+
+pre code{background:none;padding:0;font-size:inherit;display:block;min-width:max-content}
+
+.cl{display:block;padding:0 14px;white-space:pre}
+
+figure.numbered .code,.numbered pre code{counter-reset:ln}
+
+.numbered .cl{counter-increment:ln;padding-left:0}
+
+.numbered .cl::before{content:counter(ln);display:inline-block;width:2.6em;text-align:right;margin-right:12px;color:#8b949e;border-right:1px solid #d0d7de;padding-right:8px;user-select:none}
+
+.diff .hunk-t{font:600 11px var(--sans);color:var(--mut);padding:5px 14px;background:#f0f2f5;border-top:1px solid #e1e5ea;border-bottom:1px solid #e1e5ea}
+
+.diff .hunk-t:first-child{border-top:0}
+
+.dl{display:block;white-space:pre;padding:0 14px 0 0}
+
+.dl .sg{display:inline-block;width:26px;text-align:center;color:#8b949e;user-select:none}
+
+.dl.add{background:#e6ffec;box-shadow:inset 3px 0 #2da44e}
+.dl.add .sg{color:#1a7f37;font-weight:700}
+
+.dl.del{background:#ffebe9;box-shadow:inset 3px 0 #cf222e;opacity:.85}
+.dl.del .sg{color:#cf222e;font-weight:700}
+
+.expl{border:1px solid #cdbaf4;background:#fbf9ff;border-radius:10px;margin:-4px 0 14px;padding:8px 12px}
+
+.expl-t{font-size:.76rem;text-transform:uppercase;letter-spacing:.05em;font-weight:700;color:var(--pur);margin-bottom:4px}
+
+.expl table{margin:0;font-size:.9em;display:table}
+
+.expl th{white-space:nowrap;width:1%;background:#f1ebfd;border-color:#e3d8fa;font:600 .78rem var(--mono)}
+
+.expl td{border-color:#e3d8fa}
+
+figure.term{background:#fbfbfc}
+
+.dots{display:inline-flex;gap:5px}
+.dots i{width:10px;height:10px;border-radius:50%;background:#ff5f57;display:block}
+.dots i:nth-child(2){background:#febc2e}
+.dots i:nth-child(3){background:#28c840}
+
+.ttl,.url{font-size:.78rem;color:var(--mut);font-family:var(--mono)}
+
+figure.term pre{padding:10px 0;font-size:12.8px}
+
+.tl{display:block;white-space:pre;padding:0 14px;color:#24292f}
+.tl.cmd{font-weight:700;color:#0b3d91}
+.ps{color:var(--ok)}
+
+figure.shot{border:1px solid var(--bd);border-radius:10px;overflow:hidden;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.07)}
+
+figure.shot img{display:block;width:100%;height:auto}
+
+figure.diagram{border:1px solid var(--bd);border-radius:10px;background:#fff;padding:12px;text-align:center;overflow:auto}
+
+figure.diagram svg{max-width:100%;height:auto}
+
+figure.diagram figcaption{display:block;background:none;border:0;color:var(--mut);justify-content:center;margin-top:4px}
+
+.missing{background:#ffe3e3;color:#a00;padding:10px;border-radius:8px}
+
+table.planning td.h{white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
+
+table.planning td.d{white-space:nowrap;color:var(--mut)}
+
+table.planning td.c{font-size:.88em;color:var(--mut)}
+
+table.planning tr.break td{background:#f3f4f6;color:var(--mut);font-style:italic}
+
+@media (max-width:980px){
+ body{display:block}
+
+ #side{position:fixed;left:0;top:0;z-index:20;transform:translateX(-102%);transition:transform .2s;box-shadow:4px 0 20px rgba(0,0,0,.15)}
+
+ body.open #side{transform:none}
+
+ #navtoggle{display:block;position:fixed;top:8px;right:8px;z-index:30;border:1px solid var(--bd);background:#fff;border-radius:8px;padding:6px 10px;font:600 13px var(--sans)}
+
+ #main{padding:50px 14px 70px}
+
+ .notion{padding:4px 12px 12px}
+
+}
+
+@media print{
+ @page{size:A4;margin:16mm 14mm}
+
+ body{display:block;font-size:10.6pt}
+
+ #side,#navtoggle,.copy{display:none!important}
+
+ #main{max-width:none;padding:0}
+
+ .notion{box-shadow:none;break-inside:auto}
+
+ .ph,.nh,h4,h5{break-after:avoid}
+
+ figure,.callout,.avous,.expl,.etape,details,table,.questions,figure.code pre{break-inside:avoid}
+
+ figure.code.long{break-inside:auto}
+
+ .partie{break-before:page}
+
+ .partie:first-of-type{break-before:auto}
+
+ details>*{display:block}
+
+ pre{font-size:9pt}
+
+ a{color:inherit;text-decoration:none}
+
+}
+
+
+.questionnaire .qq{border:1px solid var(--bd);border-radius:10px;padding:8px 14px;margin:10px 0;background:#fff}
+
+.qh{display:flex;gap:10px;align-items:flex-start;font-weight:600}
+
+.qh b{flex:0 0 26px;height:26px;border-radius:50%;background:var(--acc2);color:#0b3d91;display:grid;place-items:center;font-size:.85rem}
+
+.tree{font:13px/1.55 var(--mono);background:var(--soft);border:1px solid var(--bd);border-radius:10px;padding:12px 16px;white-space:pre;overflow:auto}
+
+.hist li{margin:.5em 0}
+
+.jour{margin-top:40px}
+
+.jt{font-size:1.8rem;border-bottom:3px solid var(--ok);padding-bottom:8px;margin:0 0 10px}
+
+.navday{margin:14px 0 4px;font-weight:700}
+.navday a{color:var(--ok);text-decoration:none;text-transform:uppercase;letter-spacing:.05em;font-size:12px}
+
+.sommaire{margin:.6em 0;padding-left:1.2em}
+
+.learner .partie{margin-top:30px}
+
+.learner .memento h3{margin-top:1.4em}
+
+@media print{
+ .partie{break-before:auto!important}
+
+ .jour{break-before:page}
+
+ .jour:first-of-type{break-before:auto}
+
+ .hero{break-inside:avoid}
+
+ h1,h2,h3{break-after:avoid}
+
+ table{display:table}
+
+ figure.code{break-inside:auto}
+
+ figure.code pre{break-inside:auto}
+
+}
+
+@media print{
+ .avous,.etape,.eb,.questions,.programme,.objectif,.notion,.stp,.resultat,.expl{break-inside:auto!important}
+
+ figure.code,figure.term,.diff{break-inside:auto!important}
+
+ .cl,.tl,.dl,.expl tr,figure.diagram,figure.shot,.callout{break-inside:avoid}
+
+ figcaption{break-after:avoid}
+
+}
+
+
+pre { line-height: 125%; }
+
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+
+.code .hll { background-color: #ffffcc }
+
+.code { background: #f6f8fa; }
+
+.code .t-c { color: #6A737D; font-style: italic }
+ 
+.code .t-err { color: #CF222E }
+ 
+.code .t-k { color: #CF222E }
+ 
+.code .t-o { color: #CF222E }
+ 
+.code .t-p { color: #24292F }
+ 
+.code .t-ch { color: #6A737D; font-style: italic }
+ 
+.code .t-cm { color: #6A737D; font-style: italic }
+ 
+.code .t-cp { color: #6A737D; font-style: italic }
+ 
+.code .t-cpf { color: #6A737D; font-style: italic }
+ 
+.code .t-c1 { color: #6A737D; font-style: italic }
+ 
+.code .t-cs { color: #6A737D; font-style: italic }
+ 
+.code .t-gd { color: #82071E }
+ 
+.code .t-gi { color: #116329 }
+ 
+.code .t-gp { color: #6A737D; font-weight: bold }
+ 
+.code .t-kc { color: #0550AE }
+ 
+.code .t-kd { color: #CF222E }
+ 
+.code .t-kn { color: #CF222E }
+ 
+.code .t-kp { color: #CF222E }
+ 
+.code .t-kr { color: #CF222E }
+ 
+.code .t-kt { color: #CF222E }
+ 
+.code .t-m { color: #0550AE }
+ 
+.code .t-s { color: #0A3069 }
+ 
+.code .t-na { color: #0550AE }
+ 
+.code .t-nb { color: #0550AE }
+ 
+.code .t-nc { color: #953800; font-weight: bold }
+ 
+.code .t-no { color: #0550AE }
+ 
+.code .t-nd { color: #6639BA }
+ 
+.code .t-nf { color: #6639BA; font-weight: bold }
+ 
+.code .t-nt { color: #116329 }
+ 
+.code .t-nv { color: #953800 }
+ 
+.code .t-ow { color: #CF222E }
+ 
+.code .t-pm { color: #24292F }
+ 
+.code .t-mb { color: #0550AE }
+ 
+.code .t-mf { color: #0550AE }
+ 
+.code .t-mh { color: #0550AE }
+ 
+.code .t-mi { color: #0550AE }
+ 
+.code .t-mo { color: #0550AE }
+ 
+.code .t-sa { color: #0A3069 }
+ 
+.code .t-sb { color: #0A3069 }
+ 
+.code .t-sc { color: #0A3069 }
+ 
+.code .t-dl { color: #0A3069 }
+ 
+.code .t-sd { color: #0A3069 }
+ 
+.code .t-s2 { color: #0A3069 }
+ 
+.code .t-se { color: #CF222E }
+ 
+.code .t-sh { color: #0A3069 }
+ 
+.code .t-si { color: #CF222E }
+ 
+.code .t-sx { color: #0A3069 }
+ 
+.code .t-sr { color: #116329 }
+ 
+.code .t-s1 { color: #0A3069 }
+ 
+.code .t-ss { color: #0A3069 }
+ 
+.code .t-bp { color: #0550AE }
+ 
+.code .t-fm { color: #6639BA; font-weight: bold }
+ 
+.code .t-vc { color: #953800 }
+ 
+.code .t-vg { color: #953800 }
+ 
+.code .t-vi { color: #953800 }
+ 
+.code .t-vm { color: #953800 }
+ 
+.code .t-il { color: #0550AE }
+ 
+
+@media print{
+ pre code{min-width:0!important}
+ .cl,.dl,.tl{white-space:pre-wrap;overflow-wrap:anywhere}
+ .tree{white-space:pre-wrap}
+ figure.diagram svg{max-height:100mm;width:auto}
+ aside.callout,aside.objectif,aside.programme,section.avous>.avh{break-inside:avoid!important}
+ .ct,h2,h3,h4,h5,.nh,.ph{break-after:avoid!important}
+}
+
+
+.copy+.copy{margin-left:6px}
+
+
+.script{border:2px solid #0b7a4b;border-radius:12px;background:#f2fbf6;padding:6px 18px 10px;margin:14px 0}
+.script .sh{display:flex;gap:10px;align-items:center;margin:6px 0 4px}
+.script .sh .badge{background:#0b7a4b}
+.script .sh .chip{margin-left:auto}
+.script p{font-size:1.02rem}
+.script em{color:#3d5a4b}
+
+.resume{border-left:4px solid var(--acc);background:#f7f9fc;border-radius:0 10px 10px 0;padding:8px 16px;margin:12px 0}
+.resume .ct{font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.05em;color:#0b3d91;margin-bottom:2px}
+.learner .stp.trame{margin:6px 0}
+@media print{.script,.resume{break-inside:avoid}}
+.poste{font-size:.82rem;color:#5b21b6;margin:.9rem 0 -.5rem;font-weight:600}
+.poste code{font-weight:600}
+.poste-script{background:#f5f3ff;border:1px solid #ddd6fe;border-radius:8px;padding:8px 12px;margin:4px 0 12px;font-size:.84rem}
+.poste-script .pt{font-weight:700;color:#5b21b6;margin-bottom:4px}
+.poste-script .pl{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;margin:3px 0}
+.poste-script .pl span{color:#5b21b6;font-weight:600;min-width:8em}
+.poste-script .pl code{word-break:break-all;flex:1}
+
+
+a[href*="-diapos.html#"]{display:inline-block;margin:2px 6px 2px 0;padding:2px 10px;border-radius:999px;background:#312bb0;color:#fff!important;font-size:.82rem;font-weight:600;text-decoration:none}
+a[href*="-diapos.html#"]:hover{background:#4a43d6}
+
+p:has(> a[href*="-diapos.html#"]){display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+a.actif[href*="-diapos.html#"]{background:#e8590c;box-shadow:0 0 0 3px #ffd8bf}
+#diapos-barre{position:fixed;right:14px;bottom:14px;z-index:20;display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #d8dee4;border-radius:12px;padding:8px 12px;box-shadow:0 4px 16px rgba(0,0,0,.12);font-size:.82rem;max-width:560px}
+#diapos-barre button{background:#312bb0;color:#fff;border:0;border-radius:8px;padding:5px 10px;font-weight:600;cursor:pointer}
+#diapos-barre span{color:#5b6572;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px}
+@media print{#diapos-barre{display:none}}
+
+
+figure.code.cote{background:#fff}
+.cote-defile{overflow-x:auto}
+table.cote{width:100%;border-collapse:collapse;margin:0;font-size:.86em;table-layout:fixed}
+table.cote thead th{background:#f6f8fa;color:var(--muted,#5a6270);font-weight:600;font-size:.8em;text-align:left;padding:.35em .8em;border-bottom:1px solid var(--bd)}
+table.cote thead th:nth-child(1){width:auto}
+table.cote td{vertical-align:top;padding:.08em .8em;border:0}
+table.cote td.cc{width:58%;background:#f6f8fa;font-family:var(--mono,ui-monospace,SFMono-Regular,Menlo,monospace);white-space:pre-wrap;word-break:break-word;tab-size:4;line-height:1.55}
+table.cote td.ce{width:42%;border-left:2px solid #d0d7de;color:#24292f;font-size:.95em;line-height:1.45}
+table.cote td.cn{width:2.6em;text-align:right;color:#8c959f;font-family:var(--mono,ui-monospace,monospace);background:#f6f8fa;user-select:none}
+table.cote tbody tr:hover td.ce,table.cote tbody tr:hover td.cc{background:#fff8c5}
+table.cote td.ce:empty{border-left-color:#eaeef2}
+table.cote td.ce.plage{border-left-color:#8c959f}
+table.cote td.ce.vu{color:#6e7781}
+table.cote tr.add td.cc{background:#e6ffec;box-shadow:inset 3px 0 #2da44e}
+table.cote tr.del td.cc{background:#ffebe9;box-shadow:inset 3px 0 #cf222e;opacity:.85}
+table.cote td.cc .sg{display:inline-block;width:1.3em;margin-left:-.5em;color:#8b949e;user-select:none}
+table.cote tr.add td.cc .sg{color:#1a7f37;font-weight:700}
+table.cote tr.del td.cc .sg{color:#cf222e;font-weight:700}
+table.cote tr.hunk td{font:600 11px var(--sans);color:var(--mut);padding:5px 14px;background:#f0f2f5;border-top:1px solid #e1e5ea;border-bottom:1px solid #e1e5ea}
+@media print{table.cote{font-size:.78em}}
+
+.brand .logo{background:#c3002f}</style>
+<style>
+.brand .logo{background:#c3002f}
+.flabel.chemin{text-transform:none;font-size:.78rem}
+.callout.image{border-color:#c3002f;background:#fff5f6}
+.callout.image .ct{color:#c3002f}
+.notion{padding:8px 22px 18px}
+.notion table code{white-space:nowrap}
+footer.pied{margin-top:40px;color:var(--mut);font-size:.85rem;border-top:1px solid var(--bd);padding-top:12px}
+</style>
+</head>
+<body class="learner">
+<button id="navtoggle" type="button" aria-label="Sommaire">☰ Sommaire</button>
+<aside id="side"><div class="brand"><span class="logo">A</span><div><b>Révision des bases d'Angular</b><small>Angular 22 · formation Angular avancé</small></div></div><ul class="navlist"><li class="np"><a href="#p0"><b>0</b> Mode d&#x27;emploi</a></li><li class="np"><a href="#p1"><b>1</b> Angular en deux minutes</a></li><li class="np"><a href="#p2"><b>2</b> Le minimum de TypeScript</a></li><li class="np"><a href="#p3"><b>3</b> Le composant</a></li><li class="np"><a href="#p4"><b>4</b> Les signaux</a></li><li class="np"><a href="#p5"><b>5</b> Le template et les liaisons</a></li><li class="np"><a href="#p6"><b>6</b> Les pipes</a></li><li class="np"><a href="#p7"><b>7</b> Conditions et listes</a></li><li class="np"><a href="#p8"><b>8</b> Faire communiquer deux composants</a></li><li class="np"><a href="#p9"><b>9</b> Les services et l&#x27;injection de dépendances</a></li><li class="np"><a href="#p10"><b>10</b> Les observables et HttpClient</a></li><li class="np"><a href="#p11"><b>11</b> Le routage</a></li><li class="np"><a href="#p12"><b>12</b> Les formulaires réactifs</a></li><li class="np"><a href="#p13"><b>13</b> Le cycle de vie</a></li><li class="np"><a href="#p14"><b>14</b> Quand l&#x27;affichage se met-il à jour ?</a></li><li class="np"><a href="#p15"><b>15</b> Les tests</a></li><li class="np"><a href="#p16"><b>16</b> Lire du code Angular plus ancien</a></li><li class="np"><a href="#p17"><b>17</b> Pour aller plus loin</a></li></ul></aside>
+<main id="main"><div class="hero"><div class="kicker">Révision · Angular 22</div><h1>Les bases d'Angular, pour suivre Angular avancé</h1><p>Les notions dont ShopFlow se sert, chacune avec une image de tous les jours, un exemple court à copier et ce qu'il affiche.</p><p class="muted">Tous les exemples ont été exécutés le 24/11/2026 dans un projet neuf créé par <code>ng new</code>, en Angular 22.3.0, la dernière version. ShopFlow est en Angular 22.2.7 : les bases sont les mêmes. Les exemples se copient avec le bouton « Copier ».</p></div>
+<section class="partie" id="p0"><div class="ph"><span class="pn">0</span><h2>Mode d&#x27;emploi</h2></div><article class="notion"><p>Cette page reprend les bases d'Angular dont la formation se sert, pour qui n'a jamais fait d'Angular ou n'en a pas fait
+depuis longtemps. Chaque partie part d'une image de tous les jours, donne un exemple court à copier, et dit ce qu'il
+affiche.</p>
+<p><strong>Ce qu'il faut savoir avant</strong> :</p>
+<ul>
+<li>HTML et CSS : balises, attributs, classes ;</li>
+<li>JavaScript : variables (<code>const</code>, <code>let</code>), fonctions et fonctions fléchées (<code>(x) =&gt; x + 1</code>), tableaux (<code>map</code>, <code>filter</code>,
+<code>find</code>), objets, <code>import</code> et <code>export</code> ;</li>
+<li>le terminal : se placer dans un dossier (<code>cd</code>), lancer une commande, l'arrêter avec Ctrl+C.</li>
+</ul>
+<p><strong>Le temps</strong> : environ trois heures pour tout lire et essayer chaque exemple. Si le temps manque, les parties 1 à 11
+suffisent pour lire le code de ShopFlow ; les parties 12 à 16 préparent les jours 2 et 3.</p>
+<section class="stp"><h4>Créer le bac à sable</h4><p>Un projet à part, pour essayer les exemples sans toucher à ShopFlow. Dossier : celui où l'on range ses projets (sous
+Windows, dans Git Bash).</p>
+<figure class="code"><figcaption><span class="flabel">Terminal</span><button class="copy" type="button" title="Copier le code">Copier</button></figcaption><pre><code data-raw="npx @angular/cli@22 new bac-a-sable --defaults --skip-git&#10;cd bac-a-sable&#10;npm start"><span class="cl">npx @angular/cli@22 new bac-a-sable --defaults --skip-git</span><span class="cl">cd bac-a-sable</span><span class="cl">npm start</span></code></pre></figure>
+<p><code>npx</code> demande d'abord la permission de télécharger Angular CLI : répondre <code>y</code>. L'installation prend une à trois minutes.
+<code>--defaults</code> accepte les réponses par défaut (CSS, pas de rendu côté serveur) ; <code>--skip-git</code> évite de créer un dépôt Git.
+Ouvrir http://localhost:4200 : la page d'accueil d'Angular s'affiche (« Hello, bac-a-sable »). Le serveur reste lancé et
+recharge la page à chaque enregistrement ; Ctrl+C l'arrête.</p>
+</section>
+<section class="stp"><h4>Préparer le projet</h4><p>Ouvrir le dossier <code>bac-a-sable</code> dans VS Code, créer le dossier <code>src/app/exemples/</code> (chaque exemple y prend place, sous
+le nom écrit au-dessus de son code), puis remplacer <code>src/app/app.config.ts</code> : il ajoute les appels HTTP et les formats
+français (prix, dates) dont se servent les exemples.</p>
+<figure class="code"><figcaption><span class="flabel chemin">src/app/app.config.ts</span><button class="copy" type="button" title="Copier le code">Copier</button></figcaption><pre><code data-raw="import { ApplicationConfig, LOCALE_ID, provideBrowserGlobalErrorListeners } from &#x27;@angular/core&#x27;;&#10;import { registerLocaleData } from &#x27;@angular/common&#x27;;&#10;import localeFr from &#x27;@angular/common/locales/fr&#x27;;&#10;import { provideHttpClient } from &#x27;@angular/common/http&#x27;;&#10;import { provideRouter } from &#x27;@angular/router&#x27;;&#10;import { routes } from &#x27;./app.routes&#x27;;&#10;&#10;registerLocaleData(localeFr); // les formats français : 9,99 €, 27 novembre 2026&#10;&#10;export const appConfig: ApplicationConfig = {&#10;  providers: [&#10;    provideBrowserGlobalErrorListeners(),&#10;    provideRouter(routes), // le routage&#10;    provideHttpClient(), // les appels HTTP&#10;    { provide: LOCALE_ID, useValue: &#x27;fr&#x27; }, // la langue des pipes&#10;  ],&#10;};"><span class="cl">import { ApplicationConfig, LOCALE_ID, provideBrowserGlobalErrorListeners } from '@angular/core';</span><span class="cl">import { registerLocaleData } from '@angular/common';</span><span class="cl">import localeFr from '@angular/common/locales/fr';</span><span class="cl">import { provideHttpClient } from '@angular/common/http';</span><span class="cl">import { provideRouter } from '@angular/router';</span><span class="cl">import { routes } from './app.routes';</span><span class="cl"> </span><span class="cl">registerLocaleData(localeFr); // les formats français : 9,99 €, 27 novembre 2026</span><span class="cl"> </span><span class="cl">export const appConfig: ApplicationConfig = {</span><span class="cl">  providers: [</span><span class="cl">    provideBrowserGlobalErrorListeners(),</span><span class="cl">    provideRouter(routes), // le routage</span><span class="cl">    provideHttpClient(), // les appels HTTP</span><span class="cl">    { provide: LOCALE_ID, useValue: 'fr' }, // la langue des pipes</span><span class="cl">  ],</span><span class="cl">};</span></code></pre></figure>
+</section>
+</article></section><section class="partie" id="p1"><div class="ph"><span class="pn">1</span><h2>Angular en deux minutes</h2></div><article class="notion"><aside class="callout image"><div class="ct">L&#x27;image</div><p>Sur un site classique, chaque clic redemande une page entière au serveur, comme si l'on sortait d'un magasin pour entrer
+dans le suivant. Une application Angular est un seul grand magasin : on change de rayon sans ressortir, et seules les
+marchandises (les données) arrivent de l'entrepôt (le serveur, par son API).</p>
+</aside>
+<p>Angular est un framework de Google pour construire ces applications d'une seule page (SPA, <em>single-page application</em>).
+Il a remplacé AngularJS en 2016, et une version majeure sort tous les six mois. Une application Angular est un arbre de
+<strong>composants</strong> : chacun est un morceau d'écran (un en-tête, une carte produit, une page), avec son HTML et son code.</p>
+<table>
+<thead>
+<tr>
+<th>Pièce</th>
+<th>Rôle</th>
+<th>Partie</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Composant</td>
+<td>Un morceau d'écran : son template (HTML) et sa classe (TypeScript)</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Signal</td>
+<td>Une valeur qui change et qui prévient l'affichage</td>
+<td>4</td>
+</tr>
+<tr>
+<td>Template</td>
+<td>Le HTML du composant, relié à ses données</td>
+<td>5 et 7</td>
+</tr>
+<tr>
+<td>Pipe</td>
+<td>La mise en forme d'une valeur dans le template (prix, date)</td>
+<td>6</td>
+</tr>
+<tr>
+<td>Service</td>
+<td>Le code partagé : données, appels à l'API, état commun</td>
+<td>9</td>
+</tr>
+<tr>
+<td>Routeur</td>
+<td>Une adresse (<code>/panier</code>), une page</td>
+<td>11</td>
+</tr>
+</tbody>
+</table>
+<p>Ce que crée <code>ng new</code>, et le rôle de chaque fichier au démarrage :</p>
+<table>
+<thead>
+<tr>
+<th>Fichier</th>
+<th>Rôle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>src/index.html</code></td>
+<td>La seule page HTML ; elle contient la balise <code>&lt;app-root&gt;&lt;/app-root&gt;</code></td>
+</tr>
+<tr>
+<td><code>src/main.ts</code></td>
+<td>Démarre Angular : affiche le composant <code>App</code> à la place de <code>&lt;app-root&gt;</code></td>
+</tr>
+<tr>
+<td><code>src/app/app.ts</code></td>
+<td>Le composant racine, qui contient tous les autres</td>
+</tr>
+<tr>
+<td><code>src/app/app.config.ts</code></td>
+<td>Ce que l'application met à disposition : routeur, appels HTTP, langue</td>
+</tr>
+<tr>
+<td><code>src/app/app.routes.ts</code></td>
+<td>La liste des adresses et de leurs pages</td>
+</tr>
+<tr>
+<td><code>angular.json</code>, <code>package.json</code></td>
+<td>La configuration du projet et ses dépendances</td>
+</tr>
+</tbody>
+</table>
+<figure class="code"><figcaption><span class="flabel chemin">src/main.ts</span><button class="copy" type="button" title="Copier le code">Copier</button></figcaption><pre><code data-raw="import { bootstrapApplication } from &#x27;@angular/platform-browser&#x27;;&#10;import { appConfig } from &#x27;./app/app.config&#x27;;&#10;import { App } from &#x27;./app/app&#x27;;&#10;&#10;bootstrapApplication(App, appConfig)&#10;  .catch((err) =&gt; console.error(err));"><span class="cl">import { bootstrapApplication } from '@angular/platform-browser';</span><span class="cl">import { appConfig } from './app/app.config';</span><span class="cl">import { App } from './app/app';</span><span class="cl"> </span><span class="cl">bootstrapApplication(App, appConfig)</span><span class="cl">  .catch((err) =&gt; console.error(err));</span></code></pre></figure>
+<aside class="callout experience"><div class="ct">Dans ShopFlow</div><p>La même structure, avec en plus, dans <code>src/app/</code>, les dossiers <code>models/</code> (les types des données), <code>services/</code> (l'API
+et l'état partagé), <code>layout/</code> (l'en-tête), <code>pages/</code> (une page par dossier) et <code>admin/</code> (l'administration).</p>
+</aside>
+</article></section><section class="partie" id="p2"><div class="ph"><span class="pn">2</span><h2>Le minimum de TypeScript</h2></div><article class="notion"><aside class="callout image"><div class="ct">L&#x27;image</div><p>Les types sont les étiquettes d'un déménagement : « livres », « vaisselle ». Le carton ne change pas de contenu, mais
+on sait tout de suite ce qu'il contient, et une erreur se voit avant de l'ouvrir.</p>
+</aside>
+<p>TypeScript, c'est JavaScript avec des types. Le navigateur n'exécute que du JavaScript : Angular CLI traduit le
+TypeScript à chaque construction et signale les erreurs de type avant même qu'on ouvre la page.</p>
+<p>Créer ce fichier : les exemples suivants s'en servent.</p>
+<figure class="code"><figcaption><span class="flabel chemin">src/app/exemples/produit.ts</span><button class="copy" type="button" title="Copier le code">Copier</button></figcaption><pre><code data-raw="// Un type : la forme d&#x27;un produit. TypeScript refuse un objet qui ne la respecte pas.&#10;export interface Produit {&#10;  id: number;&#10;  titre: string;&#10;  prix: number;&#10;  enStock: boolean;&#10;  remise?: number; // le « ? » : la propriété peut manquer&#10;}&#10;&#10;// Un type « union » : une valeur parmi une liste fermée&#10;export type Statut = &#x27;en-attente&#x27; | &#x27;payee&#x27; | &#x27;expediee&#x27;;&#10;&#10;// Une fonction typée : un Produit en entrée, un nombre en sortie&#10;export function prixRemise(produit: Produit): number {&#10;  const remise = produit.remise ?? 0; // 0 si la remise manque&#10;  return produit.prix * (1 - remise / 100);&#10;}&#10;&#10;// Un tableau typé, réutilisé par les exemples suivants&#10;export const PRODUITS: Produit[] = [&#10;  { id: 1, titre: &#x27;Mascara&#x27;, prix: 9.99, enStock: true, remise: 10 },&#10;  { id: 2, titre: &#x27;Rouge à lèvres&#x27;, prix: 12.99, enStock: false },&#10;  { id: 3, titre: &#x27;Parfum&#x27;, prix: 49.99, enStock: true, remise: 20 },&#10;];"><span class="cl">// Un type : la forme d'un produit. TypeScript refuse un objet qui ne la respecte pas.</span><span class="cl">export interface Produit {</span><span class="cl">  id: number;</span><span class="cl">  titre: string;</span><span class="cl">  prix: number;</span><span class="cl">  enStock: boolean;</span><span class="cl">  remise?: number; // le « ? » : la propriété peut manquer</span><span class="cl">}</span><span class="cl"> </span><span class="cl">// Un type « union » : une valeur parmi une liste fermée</span><span class="cl">export type Statut = 'en-attente' | 'payee' | 'expediee';</span><span class="cl"> </span><span class="cl">// Une fonction typée : un Produit en entrée, un nombre en sortie</span><span class="cl">export function prixRemise(produit: Produit): number {</span><span class="cl">  const remise = produit.remise ?? 0; // 0 si la remise manque</span><span class="cl">  return produit.prix * (1 - remise / 100);</span><span class="cl">}</span><span class="cl"> </span><span class="cl">// Un tableau typé, réutilisé par les exemples suivants</span><span class="cl">export const PRODUITS: Produit[] = [</span><span class="cl">  { id: 1, titre: 'Mascara', prix: 9.99, enStock: true, remise: 10 },</span><span class="cl">  { id: 2, titre: 'Rouge à lèvres', prix: 12.99, enStock: false },</span><span class="cl">  { id: 3, titre: 'Parfum', prix: 49.99, enStock: true, remise: 20 },</span><span class="cl">];</span></code></pre></figure>
+<table>
+<thead>
+<tr>
+<th>Écriture</th>
+<th>Sens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id: number</code></td>
+<td><code>id</code> contient un nombre (<code>string</code> : un texte ; <code>boolean</code> : vrai ou faux)</td>
+</tr>
+<tr>
+<td><code>interface Produit { … }</code></td>
+<td>La forme d'un objet ; elle sert à vérifier le code et disparaît à l'exécution</td>
+</tr>
+<tr>
+<td><code>remise?: number</code></td>
+<td>Une propriété facultative</td>
+</tr>
+<tr>
+<td><code>'en-attente' | 'payee'</code></td>
+<td>Une valeur parmi une liste fermée</td>
+</tr>
+<tr>
+<td><code>Produit[]</code></td>
+<td>Un tableau de produits</td>
+</tr>
+<tr>
+<td><code>produit.remise ?? 0</code></td>
+<td>La valeur de gauche, ou 0 si elle manque (<code>null</code> ou <code>undefined</code>)</td>
+</tr>
+<tr>
+<td><code>(q) =&gt; q + 1</code></td>
+<td>Une fonction fléchée : elle reçoit <code>q</code> et renvoie <code>q + 1</code></td>
+</tr>
+<tr>
+<td><code>export</code> et <code>import { Produit } from './produit'</code></td>
+<td>Rendre visible hors du fichier, puis s'en servir ailleurs</td>
+</tr>
+<tr>
+<td><code>signal&lt;string | null&gt;(null)</code></td>
+<td>Les chevrons précisent le type de ce que contiendra le signal</td>
+</tr>
+</tbody>
+</table>
+<p>Les composants et les services sont des <strong>classes</strong> (<code>class Compteur { … }</code>). Trois mots y reviennent sans cesse :</p>
+<ul>
+<li><code>readonly</code> : la propriété ne sera jamais remplacée par une autre valeur ;</li>
+<li><code>private</code> : utilisable seulement dans la classe ; <code>protected</code> : dans la classe et dans son template ;</li>
+<li><code>@Component(…)</code>, <code>@Service()</code> : des <strong>décorateurs</strong>, des étiquettes posées sur une classe pour dire à Angular ce
+qu'elle est.</li>
+</ul>
+<aside class="callout retenir"><div class="ct">À retenir</div><ul>
+<li>Les types n'existent qu'à l'écriture : ils évitent des erreurs, ils ne changent rien à l'exécution.</li>
+<li>Une <code>interface</code> décrit des données ; une <code>class</code> contient du code.</li>
+</ul>
+</aside>
+<aside class="callout experience"><div class="ct">Dans ShopFlow</div><p><code>src/app/models/</code> contient les interfaces des données de l'API (<code>Product</code>, <code>CartLine</code>, <code>User</code>, <code>Order</code>) et la fonction
+<code>prixRemise()</code>.</p>
+</aside>
+</article></section><section class="partie" id="p3"><div class="ph"><span class="pn">3</span><h2>Le composant</h2></div><article class="notion"><aside class="callout image"><div class="ct">L&#x27;image</div><p>Un composant est une pièce de Lego : une forme (le template), une couleur (les styles) et une fiche technique (la
+classe). On assemble les pièces pour construire l'écran, et la même pièce sert autant de fois qu'on veut.</p>
+</aside>
+<p>Un composant est une classe décorée par <code>@Component</code>. Le décorateur dit trois choses :</p>
+<ul>
+<li><code>selector</code> : la balise qui affiche le composant, ici <code>&lt;app-bonjour /&gt;</code> ;</li>
+<li><code>template</code> : son HTML ; <code>{{ prenom }}</code> y affiche la propriété <code>prenom</code> de la classe (on parle d'<em>interpolation</em>) ;</li>
+<li><code>styles</code> : son CSS, qui ne s'applique qu'à lui : le <code>h1</code> rouge d'ici ne touche pas aux <code>h1</code> des autres composants.</li>
+</ul>
+<figure class="code"><figcaption><span class="flabel chemin">src/app/exemples/bonjour.ts</span><button class="copy" type="button" title="Copier le code">Copier</button></figcaption><pre><code data-raw="import { Component } from &#x27;@angular/core&#x27;;&#10;&#10;@Component({&#10;  selector: &#x27;app-bonjour&#x27;, // la balise qui affiche ce composant : &lt;app-bonjour /&gt;&#10;  template: `&#10;    &lt;h1&gt;Bonjour {{ prenom }} !&lt;/h1&gt;&#10;    &lt;p&gt;Bienvenue dans la formation {{ formation }}.&lt;/p&gt;&#10;  `,&#10;  styles: `&#10;    h1 { color: #c3002f; }&#10;  `,&#10;})&#10;export class Bonjour {&#10;  protected readonly prenom = &#x27;Léa&#x27;;&#10;  protected readonly formation = &#x27;Angular avancé&#x27;;&#10;}"><span class="cl">import { Component } from '@angular/core';</span><span class="cl"> </span><span class="cl">@Component({</span><span class="cl">  selector: 'app-bonjour', // la balise qui affiche ce composant : &lt;app-bonjour /&gt;</span><span class="cl">  template: `</span><span class="cl">    &lt;h1&gt;Bonjour {{ prenom }} !&lt;/h1&gt;</span><span class="cl">    &lt;p&gt;Bienvenue dans la formation {{ formation }}.&lt;/p&gt;</span><span class="cl">  `,</span><span class="cl">  styles: `</span><span class="cl">    h1 { color: #c3002f; }</span><span class="cl">  `,</span><span class="cl">})</span><span class="cl">export class Bonjour {</span><span class="cl">  protected readonly prenom = 'Léa';</span><span class="cl">  protected readonly formation = 'Angular avancé';</span><span class="cl">}</span></code></pre></figure>
+<section class="stp"><h4>Afficher le composant</h4><p>Remplacer <code>src/app/app.ts</code> :</p>
+<figure class="code"><figcaption><span class="flabel chemin">src/app/app.ts</span><button class="copy" type="button" title="Copier le code">Copier</button></figcaption><pre><code data-raw="import { Component } from &#x27;@angular/core&#x27;;&#10;import { RouterOutlet } from &#x27;@angular/router&#x27;;&#10;import { Bonjour } from &#x27;./exemples/bonjour&#x27;;&#10;&#10;@Component({&#10;  selector: &#x27;app-root&#x27;,&#10;  imports: [RouterOutlet, Bonjour],&#10;  template: `&#10;    &lt;app-bonjour /&gt;&#10;    &lt;router-outlet /&gt;&#10;  `,&#10;})&#10;export class App {}"><span class="cl">import { Component } from '@angular/core';</span><span class="cl">import { RouterOutlet } from '@angular/router';</span><span class="cl">import { Bonjour } from './exemples/bonjour';</span><span class="cl"> </span><span class="cl">@Component({</span><span class="cl">  selector: 'app-root',</span><span class="cl">  imports: [RouterOutlet, Bonjour],</span><span class="cl">  template: `</span><span class="cl">    &lt;app-bonjour /&gt;</span><span class="cl">    &lt;router-outlet /&gt;</span><span class="cl">  `,</span><span class="cl">})</span><span class="cl">export class App {}</span></code></pre></figure>
+<p>Puis supprimer <code>src/app/app.html</code>, <code>src/app/app.css</code> et <code>src/app/app.spec.ts</code> : la page d'accueil et son test ne
+servent plus.</p>
+</section>
+<aside class="callout"><div class="ct">Ce qu&#x27;on voit</div><p>« Bonjour Léa ! » en rouge, puis « Bienvenue dans la formation Angular avancé. »</p>
+</aside>
+<p><strong>Pour afficher un autre exemple</strong> : dans <code>app.ts</code>, remplacer l'import, le nom dans <code>imports</code> et la balise. Un composant
+ne peut utiliser dans son template que ce qu'il déclare dans <code>imports</code> : c'est le principe des composants autonomes
+(<em>standalone</em>), sans <code>NgModule</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Partie</th>
+<th>Fichier dans <code>src/app/exemples/</code></th>
+<th>Classe à importer</th>
+<th>Balise</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3</td>
+<td><code>bonjour.ts</code></td>
+<td><code>Bonjour</code></td>
+<td><code>&lt;app-bonjour /&gt;</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>compteur.ts</code></td>
+<td><code>Compteur</code></td>
+<td><code>&lt;app-compteur /&gt;</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>liaisons.ts</code></td>
+<td><code>Liaisons</code></td>
+<td><code>&lt;app-liaisons /&gt;</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>prix.ts</code></td>
+<td><code>Prix</code></td>
+<td><code>&lt;app-prix /&gt;</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>rayon.ts</code></td>
+<td><code>Rayon</code></td>
+<td><code>&lt;app-rayon /&gt;</code></td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>vitrine.ts</code> (et <code>carte-produit.ts</code>)</td>
+<td><code>Vitrine</code></td>
+<td><code>&lt;app-vitrine /&gt;</code></td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>magasin.ts</code> (et <code>panier-service.ts</code>)</td>
+<td><code>Magasin</code></td>
+<td><code>&lt;app-magasin /&gt;</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>catalogue.ts</code> (et <code>produits-api.ts</code>)</td>
+<td><code>Catalogue</code></td>
+<td><code>&lt;app-catalogue /&gt;</code></td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>inscription.ts</code></td>
+<td><code>Inscription</code></td>
+<td><code>&lt;app-inscription /&gt;</code></td>
+</tr>
+<tr>
+<td>13</td>
+<td><code>horloge.ts</code></td>
+<td><code>CycleDeVie</code></td>
+<td><code>&lt;app-cycle-de-vie /&gt;</code></td>
+</tr>
+<tr>
+<td>14</td>
+<td><code>rafraichissement.ts</code></td>
+<td><code>Rafraichissement</code></td>
+<td><code>&lt;app-rafraichissement /&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<p>L'import s'écrit <code>import { Compteur } from './exemples/compteur';</code>. Le routage (partie 11) s'affiche à la place de
+<code>&lt;router-outlet /&gt;</code>, sous l'exemple.</p>
+<p><strong>Créer un composant avec Angular CLI</strong> : <code>npx ng generate component carte</code> crée le dossier <code>src/app/carte/</code> avec
+<code>carte.ts</code> (la classe), <code>carte.html</code> (le template), <code>carte.css</code> (les styles) et <code>carte.spec.ts</code> (son test). Les exemples
+de cette page tiennent chacun dans un seul fichier ; ShopFlow, lui, range le template à part
+(<code>templateUrl: './product-card.html'</code>).</p>
+<aside class="callout retenir"><div class="ct">À retenir</div><ul>
+<li>Un composant, c'est une classe et un <code>@Component</code> : sa balise, son template, ses styles.</li>
+<li>Ce que le template utilise (un autre composant, un pipe) se déclare dans <code>imports</code>.</li>
+<li>Les fichiers s'appellent <code>carte.ts</code> et les classes <code>Carte</code> ; on trouve encore <code>carte.component.ts</code> et
+<code>CarteComponent</code> dans le code ancien.</li>
+</ul>
+</aside>
+<aside class="callout experience"><div class="ct">Dans ShopFlow</div><p><code>pages/catalogue/product-card.ts</code> : la carte d'un produit, avec son template dans <code>product-card.html</code>.</p>
+</aside>
+</article></section><section class="partie" id="p4"><div class="ph"><span class="pn">4</span><h2>Les signaux</h2></div><article class="notion"><aside class="callout image"><div class="ct">L&#x27;image</div><p>Un signal est le tableau des départs d'une gare : quand un horaire change, tous ceux qui le regardent voient la
+nouvelle valeur, sans retourner la demander au guichet.</p>
+</aside>
+<p>Une donnée qui change pendant que l'écran est affiché (une quantité, un filtre, un panier) se range dans un <strong>signal</strong>.
+Angular sait alors quels affichages en dépendent, et les met à jour.</p>
+<figure class="code"><figcaption><span class="flabel chemin">src/app/exemples/compteur.ts</span><button class="copy" type="button" title="Copier le code">Copier</button></figcaption><pre><code data-raw="import { Component, computed, effect, signal } from &#x27;@angular/core&#x27;;&#10;&#10;@Component({&#10;  selector: &#x27;app-compteur&#x27;,&#10;  template: `&#10;    &lt;p&gt;{{ quantite() }} × {{ prix }} € = {{ total() }} €&lt;/p&gt;&#10;    &lt;button type=&quot;button&quot; (click)=&quot;ajouter()&quot;&gt;+1&lt;/button&gt;&#10;    &lt;button type=&quot;button&quot; (click)=&quot;quantite.set(1)&quot;&gt;Remettre à 1&lt;/button&gt;&#10;  `,&#10;})&#10;export class Compteur {&#10;  protected readonly prix = 12;&#10;  protected readonly quantite = signal(1); // une valeur qui change : un signal&#10;  protected readonly total = computed(() =&gt; this.quantite() * this.prix); // recalculé tout seul&#10;&#10;  constructor() {&#10;    effect(() =&gt; console.log(&#x27;Quantité :&#x27;, this.quantite())); // relancé à chaque changement&#10;  }&#10;&#10;  protected ajouter(): void {&#10;    this.quantite.update((q) =&gt; q + 1); // la nouvelle valeur, calculée à partir de l&#x27;ancienne&#10;  }&#10;}"><span class="cl">import { Component, computed, effect, signal } from '@angular/core';</span><span class="cl"> </span><span class="cl">@Component({</span><span class="cl">  selector: 'app-compteur',</span><span class="cl">  template: `</span><span class="cl">    &lt;p&gt;{{ quantite() }} × {{ prix }} € = {{ total() }} €&lt;/p&gt;</span><span class="cl">    &lt;button type="button" (click)="ajouter()"&gt;+1&lt;/button&gt;</span><span class="cl">    &lt;button type="button" (click)="quantite.set(1)"&gt;Remettre à 1&lt;/button&gt;</span><span class="cl">  `,</span><span class="cl">})</span><span class="cl">export class Compteur {</span><span class="cl">  protected readonly prix = 12;</span><span class="cl">  protected readonly quantite = signal(1); // une valeur qui change : un signal</span><span class="cl">  protected readonly total = computed(() =&gt; this.quantite() * this.prix); // recalculé tout seul</span><span class="cl"> </span><span class="cl">  constructor() {</span><span class="cl">    effect(() =&gt; console.log('Quantité :', this.quantite())); // relancé à chaque changement</span><span class="cl">  }</span><span class="cl"> </span><span class="cl">  protected ajouter(): void {</span><span class="cl">    this.quantite.update((q) =&gt; q + 1); // la nouvelle valeur, calculée à partir de l'ancienne</span><span class="cl">  }</span><span class="cl">}</span></code></pre></figure>
+<table>
+<thead>
+<tr>
+<th>Écriture</th>
+<th>Sens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>signal(1)</code></td>
+<td>Crée un signal qui vaut 1</td>
+</tr>
+<tr>
+<td><code>quantite()</code></td>
+<td>Lit la valeur : un signal se lit avec des parenthèses</td>
+</tr>
+<tr>
+<td><code>quantite.set(1)</code></td>
+<td>Remplace la valeur</td>
+</tr>
+<tr>
+<td><code>quantite.update((q) =&gt; q + 1)</code></td>
+<td>Calcule la nouvelle valeur à partir de l'ancienne</td>
+</tr>
+<tr>
+<td><code>computed(() =&gt; …)</code></td>
+<td>Un signal calculé à partir d'autres, recalculé seulement quand l'un d'eux change</td>
+</tr>
+<tr>
+<td><code>effect(() =&gt; …)</code></td>
+<td>Une action relancée à chaque changement des signaux qu'elle lit (journal, sauvegarde) ; on en a rarement besoin</td>
+</tr>
+</tbody>
+</table>
+<aside class="callout"><div class="ct">Ce qu&#x27;on voit</div><p>« 1 × 12 € = 12 € ». Deux clics sur « +1 » : « 3 × 12 € = 36 € ». « Remettre à 1 » : « 1 × 12 € = 12 € ». Dans la
+console du navigateur (F12) : « Quantité : 1 », « Quantité : 2 », « Quantité : 3 », puis « Quantité : 1 ».</p>
+</aside>
+<aside class="callout piege"><div class="ct">Piège</div><p>Oublier les parenthèses. <code>{{ quantite }}</code> affiche « [Signal (quantite): 1] » au lieu de 1, et la construction prévient :
+« NG8109: quantite is a function and should be invoked: quantite() ». On écrit <code>{{ quantite() }}</code>.</p>
+</aside>
+<aside class="callout retenir"><div class="ct">À retenir</div><ul>
+<li>Une donnée affichée qui change : un signal.</li>
+<li>On lit avec <code>()</code>, on écrit avec <code>set()</code> ou <code>update()</code>.</li>
+<li>Ce qui se déduit d'autres données s'écrit en <code>computed()</code>, jamais en copie mise à jour à la main.</li>
+</ul>
+</aside>
+<aside class="callout experience"><div class="ct">Dans ShopFlow</div><p>Pas encore de signaux : l'état du panier et de la session y est rangé dans des <code>BehaviorSubject</code> (partie 10). Le panier
+passe en signaux au jour 2.</p>
+</aside>
+</article></section><section class="partie" id="p5"><div class="ph"><span class="pn">5</span><h2>Le template et les liaisons</h2></div><article class="notion"><aside class="callout image"><div class="ct">L&#x27;image</div><p>Le template est un formulaire préimprimé : certaines cases se remplissent avec les données du composant, d'autres
+déclenchent une action quand on les touche.</p>
+</aside>
+<figure class="code"><figcaption><span class="flabel chemin">src/app/exemples/liaisons.ts</span><button class="copy" type="button" title="Copier le code">Copier</button></figcaption><pre><code data-raw="import { Component, signal } from &#x27;@angular/core&#x27;;&#10;&#10;@Component({&#10;  selector: &#x27;app-liaisons&#x27;,&#10;  template: `&#10;    &lt;img [src]=&quot;image&quot; [alt]=&quot;titre&quot; width=&quot;100&quot; height=&quot;100&quot; /&gt;&#10;    &lt;p [class.promo]=&quot;enPromo()&quot;&gt;{{ titre }}&lt;/p&gt;&#10;    &lt;button type=&quot;button&quot; (click)=&quot;enPromo.set(!enPromo())&quot;&gt;&#10;      Promotion : {{ enPromo() ? &#x27;oui&#x27; : &#x27;non&#x27; }}&#10;    &lt;/button&gt;&#10;    &lt;input #champ (keyup.enter)=&quot;recherche.set(champ.value)&quot; placeholder=&quot;Tapez puis Entrée&quot; /&gt;&#10;    &lt;p&gt;Recherche : {{ recherche() }}&lt;/p&gt;&#10;  `,&#10;  styles: `&#10;    .promo { color: #c3002f; font-weight: bold; }&#10;  `,&#10;})&#10;export class Liaisons {&#10;  protected readonly titre = &#x27;Mascara&#x27;;&#10;  protected readonly image =&#10;    &#x27;https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp&#x27;;&#10;  protected readonly enPromo = signal(false);&#10;  protected readonly recherche = signal(&#x27;&#x27;);&#10;}"><span class="cl">import { Component, signal } from '@angular/core';</span><span class="cl"> </span><span class="cl">@Component({</span><span class="cl">  selector: 'app-liaisons',</span><span class="cl">  template: `</span><span class="cl">    &lt;img [src]="image" [alt]="titre" width="100" height="100" /&gt;</span><span class="cl">    &lt;p [class.promo]="enPromo()"&gt;{{ titre }}&lt;/p&gt;</span><span class="cl">    &lt;button type="button" (click)="enPromo.set(!enPromo())"&gt;</span><span class="cl">      Promotion : {{ enPromo() ? 'oui' : 'non' }}</span><span class="cl">    &lt;/button&gt;</span><span class="cl">    &lt;input #champ (keyup.enter)="recherche.set(champ.value)" placeholder="Tapez puis Entrée" /&gt;</span><span class="cl">    &lt;p&gt;Recherche : {{ recherche() }}&lt;/p&gt;</span><span class="cl">  `,</span><span class="cl">  styles: `</span><span class="cl">    .promo { color: #c3002f; font-weight: bold; }</span><span class="cl">  `,</span><span class="cl">})</span><span class="cl">export class Liaisons {</span><span class="cl">  protected readonly titre = 'Mascara';</span><span class="cl">  protected readonly image =</span><span class="cl">    'https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp';</span><span class="cl">  protected readonly enPromo = signal(false);</span><span class="cl">  protected readonly recherche = signal('');</span><span class="cl">}</span></code></pre></figure>
+<table>
+<thead>
+<tr>
+<th>Écriture</th>
+<th>Sens</th>
+<th>Dans l'exemple</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{{ expression }}</code></td>
+<td>Affiche une valeur dans le texte</td>
+<td><code>{{ titre }}</code></td>
+</tr>
+<tr>
+<td><code>[propriété]=&quot;expression&quot;</code></td>
+<td>Donne une valeur à une propriété d'un élément</td>
+<td><code>[src]=&quot;image&quot;</code></td>
+</tr>
+<tr>
+<td><code>[class.nom]=&quot;condition&quot;</code></td>
+<td>Ajoute la classe CSS tant que la condition est vraie</td>
+<td><code>[class.promo]=&quot;enPromo()&quot;</code></td>
+</tr>
+<tr>
+<td><code>(événement)=&quot;instruction&quot;</code></td>
+<td>Exécute du code quand l'événement arrive</td>
+<td><code>(click)=&quot;enPromo.set(!enPromo())&quot;</code></td>
+</tr>
+<tr>
+<td><code>(keyup.enter)</code></td>
+<td>Le même, pour une seule touche</td>
+<td>la recherche part à l'appui sur Entrée</td>
+</tr>
+<tr>
+<td><code>#nom</code></td>
+<td>Nomme un élément, pour s'en servir ailleurs dans le template</td>
+<td><code>#champ</code>, puis <code>champ.value</code></td>
+</tr>
+</tbody>
+</table>
+<p>Les crochets vont du composant vers la page, les parenthèses de la page vers le composant. Entre crochets, on écrit une
+expression : <code>[alt]=&quot;titre&quot;</code> donne le contenu de la propriété <code>titre</code>, alors que <code>alt=&quot;titre&quot;</code> écrit le mot « titre ».</p>
+<aside class="callout"><div class="ct">Ce qu&#x27;on voit</div><p>L'image du mascara (téléchargée depuis DummyJSON), « Mascara », puis le bouton « Promotion : non ». Un clic sur le
+bouton : « Mascara » passe en rouge et en gras, le bouton affiche « Promotion : oui ». Taper « rouge » puis Entrée :
+« Recherche : rouge ».</p>
+</aside>
+<aside class="callout retenir"><div class="ct">À retenir</div><ul>
+<li><code>{{ }}</code> et <code>[ ]</code> : du composant vers la page ; <code>( )</code> : de la page vers le composant.</li>
+<li>Dans un <code>(click)</code>, une instruction courte ; au-delà, une méthode (<code>(click)=&quot;ajouter()&quot;</code>), plus lisible et testable.</li>
+</ul>
+</aside>
+<aside class="callout experience"><div class="ct">Dans ShopFlow</div><p><code>pages/catalogue/product-card.html</code> : <code>[src]=&quot;p.thumbnail&quot;</code>, <code>[routerLink]</code>, <code>(click)=&quot;ajouter()&quot;</code>.</p>
+</aside>
+</article></section><section class="partie" id="p6"><div class="ph"><span class="pn">6</span><h2>Les pipes</h2></div><article class="notion"><aside class="callout image"><div class="ct">L&#x27;image</div><p>Un pipe est un papier cadeau : le cadeau (la donnée) ne change pas, seule sa présentation change.</p>
+</aside>
+<figure class="code"><figcaption><span class="flabel chemin">src/app/exemples/prix.ts</span><button class="copy" type="button" title="Copier le code">Copier</button></figcaption><pre><code data-raw="import { Component, Pipe, PipeTransform } from &#x27;@angular/core&#x27;;&#10;import { CurrencyPipe, DatePipe, UpperCasePipe } from &#x27;@angular/common&#x27;;&#10;&#10;// Un pipe à soi : une fonction de mise en forme, utilisable dans les templates&#10;@Pipe({ name: &#x27;remise&#x27; })&#10;export class RemisePipe implements PipeTransform {&#10;  transform(prix: number, pourcentage: number): number {&#10;    return prix * (1 - pourcentage / 100);&#10;  }&#10;}&#10;&#10;@Component({&#10;  selector: &#x27;app-prix&#x27;,&#10;  imports: [CurrencyPipe, DatePipe, UpperCasePipe, RemisePipe],&#10;  template: `&#10;    &lt;p&gt;{{ titre | uppercase }}&lt;/p&gt;&#10;    &lt;p&gt;Prix : {{ prix | currency: &#x27;EUR&#x27; }}&lt;/p&gt;&#10;    &lt;p&gt;Prix remisé : {{ prix | remise: 10 | currency: &#x27;EUR&#x27; }}&lt;/p&gt;&#10;    &lt;p&gt;Livraison le {{ livraison | date: &#x27;longDate&#x27; }}&lt;/p&gt;&#10;  `,&#10;})&#10;export class Prix {&#10;  protected readonly titre = &#x27;Mascara&#x27;;&#10;  protected readonly prix = 9.99;&#10;  protected readonly livraison = new Date(2026, 10, 27); // les mois comptent à partir de 0 : 10 = novembre&#10;}"><span class="cl">import { Component, Pipe, PipeTransform } from '@angular/core';</span><span class="cl">import { CurrencyPipe, DatePipe, UpperCasePipe } from '@angular/common';</span><span class="cl"> </span><span class="cl">// Un pipe à soi : une fonction de mise en forme, utilisable dans les templates</span><span class="cl">@Pipe({ name: 'remise' })</span><span class="cl">export class RemisePipe implements PipeTransform {</span><span class="cl">  transform(prix: number, pourcentage: number): number {</span><span class="cl">    return prix * (1 - pourcentage / 100);</span><span class="cl">  }</span><span class="cl">}</span><span class="cl"> </span><span class="cl">@Component({</span><span class="cl">  selector: 'app-prix',</span><span class="cl">  imports: [CurrencyPipe, DatePipe, UpperCasePipe, RemisePipe],</span><span class="cl">  template: `</span><span class="cl">    &lt;p&gt;{{ titre | uppercase }}&lt;/p&gt;</span><span class="cl">    &lt;p&gt;Prix : {{ prix | currency: 'EUR' }}&lt;/p&gt;</span><span class="cl">    &lt;p&gt;Prix remisé : {{ prix | remise: 10 | currency: 'EUR' }}&lt;/p&gt;</span><span class="cl">    &lt;p&gt;Livraison le {{ livraison | date: 'longDate' }}&lt;/p&gt;</span><span class="cl">  `,</span><span class="cl">})</span><span class="cl">export class Prix {</span><span class="cl">  protected readonly titre = 'Mascara';</span><span class="cl">  protected readonly prix = 9.99;</span><span class="cl">  protected readonly livraison = new Date(2026, 10, 27); // les mois comptent à partir de 0 : 10 = novembre</span><span class="cl">}</span></code></pre></figure>
+<p>Un pipe s'écrit après une barre verticale : <code>valeur | nom: paramètre</code>. Les pipes s'enchaînent :
+<code>prix | remise: 10 | currency: 'EUR'</code> applique la remise, puis met le résultat en forme. Ceux d'Angular (<code>currency</code>,
+<code>date</code>, <code>uppercase</code>, <code>number</code>, <code>percent</code>…) s'importent depuis <code>@angular/common</code> ; un pipe à soi est une classe décorée
+par <code>@Pipe</code>, avec une méthode <code>transform</code>.</p>
+<aside class="callout"><div class="ct">Ce qu&#x27;on voit</div><p>« MASCARA », « Prix : 9,99 € », « Prix remisé : 8,99 € », « Livraison le 27 novembre 2026 ». Les formats français
+viennent de deux lignes de <code>app.config.ts</code> : <code>registerLocaleData(localeFr)</code> et <code>LOCALE_ID</code>.</p>
+</aside>
+<aside class="callout retenir"><div class="ct">À retenir</div><ul>
+<li>Un pipe met en forme pour l'affichage ; il ne modifie pas la donnée.</li>
+<li><code>currency</code> attend le code de la devise : <code>currency: 'EUR'</code>.</li>
+<li>Un pipe se déclare dans <code>imports</code>, comme un composant.</li>
+</ul>
+</aside>
+<aside class="callout experience"><div class="ct">Dans ShopFlow</div><p><code>currency: 'EUR'</code> sur toutes les pages (carte, fiche, panier, commande) et <code>number: '1.1-1'</code> pour la note des produits.</p>
+</aside>
+</article></section><section class="partie" id="p7"><div class="ph"><span class="pn">7</span><h2>Conditions et listes</h2></div><article class="notion"><aside class="callout image"><div class="ct">L&#x27;image</div><p>Le template a ses aiguillages : <code>@if</code> choisit une voie selon une condition, <code>@for</code> fait défiler une liste comme le tapis
+d'une caisse, un article après l'autre.</p>
+</aside>
+<figure class="code"><figcaption><span class="flabel chemin">src/app/exemples/rayon.ts</span><button class="copy" type="button" title="Copier le code">Copier</button></figcaption><pre><code data-raw="import { Component, computed, signal } from &#x27;@angular/core&#x27;;&#10;import { PRODUITS, Statut } from &#x27;./produit&#x27;;&#10;&#10;@Component({&#10;  selector: &#x27;app-rayon&#x27;,&#10;  template: `&#10;    &lt;label&gt;&#10;      &lt;input type=&quot;checkbox&quot; (change)=&quot;enStockSeulement.set(!enStockSeulement())&quot; /&gt;&#10;      En stock seulement&#10;    &lt;/label&gt;&#10;    &lt;ul&gt;&#10;      @for (produit of produitsAffiches(); track produit.id) {&#10;        &lt;li&gt;&#10;          {{ produit.titre }} :&#10;          @if (produit.enStock) {&#10;            &lt;strong&gt;disponible&lt;/strong&gt;&#10;          } @else {&#10;            &lt;em&gt;épuisé&lt;/em&gt;&#10;          }&#10;        &lt;/li&gt;&#10;      } @empty {&#10;        &lt;li&gt;Aucun produit&lt;/li&gt;&#10;      }&#10;    &lt;/ul&gt;&#10;    @let nombre = produitsAffiches().length;&#10;    &lt;p&gt;{{ nombre }} produit(s) affiché(s)&lt;/p&gt;&#10;    @switch (statut) {&#10;      @case (&#x27;en-attente&#x27;) {&#10;        &lt;p&gt;Commande en attente de paiement&lt;/p&gt;&#10;      }&#10;      @case (&#x27;payee&#x27;) {&#10;        &lt;p&gt;Commande payée&lt;/p&gt;&#10;      }&#10;      @default {&#10;        &lt;p&gt;Commande expédiée&lt;/p&gt;&#10;      }&#10;    }&#10;  `,&#10;})&#10;export class Rayon {&#10;  protected readonly enStockSeulement = signal(false);&#10;  protected readonly produitsAffiches = computed(() =&gt;&#10;    this.enStockSeulement() ? PRODUITS.filter((p) =&gt; p.enStock) : PRODUITS,&#10;  );&#10;  protected readonly statut: Statut = &#x27;payee&#x27;;&#10;}"><span class="cl">import { Component, computed, signal } from '@angular/core';</span><span class="cl">import { PRODUITS, Statut } from './produit';</span><span class="cl"> </span><span class="cl">@Component({</span><span class="cl">  selector: 'app-rayon',</span><span class="cl">  template: `</span><span class="cl">    &lt;label&gt;</span><span class="cl">      &lt;input type="checkbox" (change)="enStockSeulement.set(!enStockSeulement())" /&gt;</span><span class="cl">      En stock seulement</span><span class="cl">    &lt;/label&gt;</span><span class="cl">    &lt;ul&gt;</span><span class="cl">      @for (produit of produitsAffiches(); track produit.id) {</span><span class="cl">        &lt;li&gt;</span><span class="cl">          {{ produit.titre }} :</span><span class="cl">          @if (produit.enStock) {</span><span class="cl">            &lt;strong&gt;disponible&lt;/strong&gt;</span><span class="cl">          } @else {</span><span class="cl">            &lt;em&gt;épuisé&lt;/em&gt;</span><span class="cl">          }</span><span class="cl">        &lt;/li&gt;</span><span class="cl">      } @empty {</span><span class="cl">        &lt;li&gt;Aucun produit&lt;/li&gt;</span><span class="cl">      }</span><span class="cl">    &lt;/ul&gt;</span><span class="cl">    @let nombre = produitsAffiches().length;</span><span class="cl">    &lt;p&gt;{{ nombre }} produit(s) affiché(s)&lt;/p&gt;</span><span class="cl">    @switch (statut) {</span><span class="cl">      @case ('en-attente') {</span><span class="cl">        &lt;p&gt;Commande en attente de paiement&lt;/p&gt;</span><span class="cl">      }</span><span class="cl">      @case ('payee') {</span><span class="cl">        &lt;p&gt;Commande payée&lt;/p&gt;</span><span class="cl">      }</span><span class="cl">      @default {</span><span class="cl">        &lt;p&gt;Commande expédiée&lt;/p&gt;</span><span class="cl">      }</span><span class="cl">    }</span><span class="cl">  `,</span><span class="cl">})</span><span class="cl">export class Rayon {</span><span class="cl">  protected readonly enStockSeulement = signal(false);</span><span class="cl">  protected readonly produitsAffiches = computed(() =&gt;</span><span class="cl">    this.enStockSeulement() ? PRODUITS.filter((p) =&gt; p.enStock) : PRODUITS,</span><span class="cl">  );</span><span class="cl">  protected readonly statut: Statut = 'payee';</span><span class="cl">}</span></code></pre></figure>
+<table>
+<thead>
+<tr>
+<th>Écriture</th>
+<th>Sens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@if (condition) { … } @else { … }</code></td>
+<td>Affiche un bloc ou l'autre</td>
+</tr>
+<tr>
+<td><code>@for (produit of liste; track produit.id) { … }</code></td>
+<td>Répète le bloc pour chaque élément</td>
+</tr>
+<tr>
+<td><code>@empty { … }</code></td>
+<td>Ce qu'affiche <code>@for</code> quand la liste est vide</td>
+</tr>
+<tr>
+<td><code>@let nombre = …;</code></td>
+<td>Donne un nom à une valeur, dans le template</td>
+</tr>
+<tr>
+<td><code>@switch (valeur) { @case (…) { … } @default { … } }</code></td>
+<td>Choisit un bloc selon une valeur</td>
+</tr>
+</tbody>
+</table>
+<p><code>track</code> est obligatoire : c'est le numéro de série de chaque élément. Quand la liste change, Angular reconnaît les
+éléments qui restent et ne redessine que ceux qui changent. On suit un identifiant unique (<code>produit.id</code>) ; avec
+<code>track $index</code> (la position), un élément qui change de place n'est plus reconnu.</p>
+<aside class="callout"><div class="ct">Ce qu&#x27;on voit</div><p>Les trois produits, chacun « disponible » ou « épuisé », puis « 3 produit(s) affiché(s) » et « Commande payée ». Case
+« En stock seulement » cochée : le rouge à lèvres disparaît, « 2 produit(s) affiché(s) ».</p>
+</aside>
+<aside class="callout retenir"><div class="ct">À retenir</div><ul>
+<li><code>@if</code>, <code>@for</code> et <code>@switch</code> sont l'écriture d'aujourd'hui ; <code>*ngIf</code> et <code>*ngFor</code> sont l'ancienne (partie 16).</li>
+<li>Toujours un <code>track</code> sur un identifiant.</li>
+</ul>
+</aside>
+<aside class="callout experience"><div class="ct">Dans ShopFlow</div><p><code>pages/catalogue/catalogue.html</code> affiche les produits avec <code>@for (…; track $index)</code> : un des défauts relevés pendant la
+visite de ShopFlow.</p>
+</aside>
+</article></section><section class="partie" id="p8"><div class="ph"><span class="pn">8</span><h2>Faire communiquer deux composants</h2></div><article class="notion"><aside class="callout image"><div class="ct">L&#x27;image</div><p>Le parent tend un dossier à l'enfant : c'est l'entrée (<code>input</code>). L'enfant lève la main pour prévenir le parent : c'est
+la sortie (<code>output</code>). L'enfant ne sait pas qui est son parent, si bien qu'il peut servir partout.</p>
+</aside>
+<p>L'enfant, une carte qui reçoit un produit et prévient quand on clique sur « Ajouter » :</p>
+<figure class="code"><figcaption><span class="flabel chemin">src/app/exemples/carte-produit.ts</span><button class="copy" type="button" title="Copier le code">Copier</button></figcaption><pre><code data-raw="import { Component, computed, input, output } from &#x27;@angular/core&#x27;;&#10;import { CurrencyPipe } from &#x27;@angular/common&#x27;;&#10;import { Produit, prixRemise } from &#x27;./produit&#x27;;&#10;&#10;@Component({&#10;  selector: &#x27;app-carte-produit&#x27;,&#10;  imports: [CurrencyPipe],&#10;  template: `&#10;    @let p = produit();&#10;    &lt;h3&gt;{{ p.titre }}&lt;/h3&gt;&#10;    &lt;p&gt;{{ prix() | currency: &#x27;EUR&#x27; }}&lt;/p&gt;&#10;    &lt;button type=&quot;button&quot; [disabled]=&quot;!p.enStock&quot; (click)=&quot;ajout.emit(p)&quot;&gt;Ajouter&lt;/button&gt;&#10;  `,&#10;})&#10;export class CarteProduit {&#10;  readonly produit = input.required&lt;Produit&gt;(); // reçu du parent : [produit]=&quot;…&quot;&#10;  readonly ajout = output&lt;Produit&gt;(); // envoyé au parent : (ajout)=&quot;…&quot;&#10;  protected readonly prix = computed(() =&gt; prixRemise(this.produit()));&#10;}"><span class="cl">import { Component, computed, input, output } from '@angular/core';</span><span class="cl">import { CurrencyPipe } from '@angular/common';</span><span class="cl">import { Produit, prixRemise } from './produit';</span><span class="cl"> </span><span class="cl">@Component({</span><span class="cl">  selector: 'app-carte-produit',</span><span class="cl">  imports: [CurrencyPipe],</span><span class="cl">  template: `</span><span class="cl">    @let p = produit();</span><span class="cl">    &lt;h3&gt;{{ p.titre }}&lt;/h3&gt;</span><span class="cl">    &lt;p&gt;{{ prix() | currency: 'EUR' }}&lt;/p&gt;</span><span class="cl">    &lt;button type="button" [disabled]="!p.enStock" (click)="ajout.emit(p)"&gt;Ajouter&lt;/button&gt;</span><span class="cl">  `,</span><span class="cl">})</span><span class="cl">export class CarteProduit {</span><span class="cl">  readonly produit = input.required&lt;Produit&gt;(); // reçu du parent : [produit]="…"</span><span class="cl">  readonly ajout = output&lt;Produit&gt;(); // envoyé au parent : (ajout)="…"</span><span class="cl">  protected readonly prix = computed(() =&gt; prixRemise(this.produit()));</span><span class="cl">}</span></code></pre></figure>
+<p>Le parent, qui affiche une carte par produit et réagit à ses clics :</p>
+<figure class="code"><figcaption><span class="flabel chemin">src/app/exemples/vitrine.ts</span><button class="copy" type="button" title="Copier le code">Copier</button></figcaption><pre><code data-raw="import { Component, signal } from &#x27;@angular/core&#x27;;&#10;import { CarteProduit } from &#x27;./carte-produit&#x27;;&#10;import { Produit, PRODUITS } from &#x27;./produit&#x27;;&#10;&#10;@Component({&#10;  selector: &#x27;app-vitrine&#x27;,&#10;  imports: [CarteProduit],&#10;  template: `&#10;    @for (produit of produits; track produit.id) {&#10;      &lt;app-carte-produit [produit]=&quot;produit&quot; (ajout)=&quot;ajouter($event)&quot; /&gt;&#10;    }&#10;    &lt;p&gt;Dernier ajout : {{ dernier() ?? &#x27;aucun&#x27; }}&lt;/p&gt;&#10;  `,&#10;})&#10;export class Vitrine {&#10;  protected readonly produits = PRODUITS;&#10;  protected readonly dernier = signal&lt;string | null&gt;(null);&#10;&#10;  protected ajouter(produit: Produit): void {&#10;    this.dernier.set(produit.titre);&#10;  }&#10;}"><span class="cl">import { Component, signal } from '@angular/core';</span><span class="cl">import { CarteProduit } from './carte-produit';</span><span class="cl">import { Produit, PRODUITS } from './produit';</span><span class="cl"> </span><span class="cl">@Component({</span><span class="cl">  selector: 'app-vitrine',</span><span class="cl">  imports: [CarteProduit],</span><span class="cl">  template: `</span><span class="cl">    @for (produit of produits; track produit.id) {</span><span class="cl">      &lt;app-carte-produit [produit]="produit" (ajout)="ajouter($event)" /&gt;</span><span class="cl">    }</span><span class="cl">    &lt;p&gt;Dernier ajout : {{ dernier() ?? 'aucun' }}&lt;/p&gt;</span><span class="cl">  `,</span><span class="cl">})</span><span class="cl">export class Vitrine {</span><span class="cl">  protected readonly produits = PRODUITS;</span><span class="cl">  protected readonly dernier = signal&lt;string | null&gt;(null);</span><span class="cl"> </span><span class="cl">  protected ajouter(produit: Produit): void {</span><span class="cl">    this.dernier.set(produit.titre);</span><span class="cl">  }</span><span class="cl">}</span></code></pre></figure>
+<table>
+<thead>
+<tr>
+<th>Côté</th>
+<th>Écriture</th>
+<th>Sens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Enfant</td>
+<td><code>produit = input.required&lt;Produit&gt;()</code></td>
+<td>Une entrée obligatoire ; <code>input(valeur)</code> pour une entrée facultative, avec sa valeur par défaut</td>
+</tr>
+<tr>
+<td>Enfant</td>
+<td><code>produit()</code></td>
+<td>Lit l'entrée : c'est un signal</td>
+</tr>
+<tr>
+<td>Enfant</td>
+<td><code>ajout = output&lt;Produit&gt;()</code>, puis <code>ajout.emit(p)</code></td>
+<td>Une sortie, puis son envoi</td>
+</tr>
+<tr>
+<td>Parent</td>
+<td><code>[produit]=&quot;produit&quot;</code></td>
+<td>Donne la valeur de l'entrée</td>
+</tr>
+<tr>
+<td>Parent</td>
+<td><code>(ajout)=&quot;ajouter($event)&quot;</code></td>
+<td>Réagit à la sortie ; <code>$event</code> est la valeur envoyée</td>
+</tr>
+</tbody>
+</table>
+<aside class="callout"><div class="ct">Ce qu&#x27;on voit</div><p>Trois cartes : « Mascara 8,99 € », « Rouge à lèvres 12,99 € » (bouton grisé : épuisé) et « Parfum 39,99 € ». Un clic
+sur « Ajouter » du parfum : « Dernier ajout : Parfum ».</p>
+</aside>
+<aside class="callout retenir"><div class="ct">À retenir</div><ul>
+<li>Du parent vers l'enfant : <code>input()</code> ; de l'enfant vers le parent : <code>output()</code>.</li>
+<li>Une entrée se lit comme un signal (<code>produit()</code>) et se combine dans un <code>computed()</code>.</li>
+</ul>
+</aside>
+<aside class="callout experience"><div class="ct">Dans ShopFlow</div><p><code>pages/catalogue/product-card.ts</code> reçoit son produit par <code>input.required&lt;Product&gt;()</code> ; le catalogue l'affiche avec
+<code>&lt;app-product-card [product]=&quot;p&quot; /&gt;</code>.</p>
+</aside>
+</article></section><section class="partie" id="p9"><div class="ph"><span class="pn">9</span><h2>Les services et l&#x27;injection de dépendances</h2></div><article class="notion"><aside class="callout image"><div class="ct">L&#x27;image</div><p>Un service est le guichet unique d'une mairie : tous les habitants (les composants) s'adressent au même guichet, qui
+garde les dossiers. L'injection de dépendances, c'est l'accueil : on demande le guichet et l'on vous y conduit ; personne
+ne construit son propre guichet.</p>
+</aside>
+<figure class="code"><figcaption><span class="flabel chemin">src/app/exemples/panier-service.ts</span><button class="copy" type="button" title="Copier le code">Copier</button></figcaption><pre><code data-raw="import { computed, Service, signal } from &#x27;@angular/core&#x27;;&#10;import { Produit } from &#x27;./produit&#x27;;&#10;&#10;@Service() // une seule instance, partagée par toute l&#x27;application&#10;export class PanierService {&#10;  private readonly lignes = signal&lt;Produit[]&gt;([]);&#10;  readonly nombre = computed(() =&gt; this.lignes().length);&#10;  readonly total = computed(() =&gt; this.lignes().reduce((somme, p) =&gt; somme + p.prix, 0));&#10;&#10;  ajouter(produit: Produit): void {&#10;    this.lignes.update((lignes) =&gt; [...lignes, produit]); // un nouveau tableau, jamais push()&#10;  }&#10;}"><span class="cl">import { computed, Service, signal } from '@angular/core';</span><span class="cl">import { Produit } from './produit';</span><span class="cl"> </span><span class="cl">@Service() // une seule instance, partagée par toute l'application</span><span class="cl">export class PanierService {</span><span class="cl">  private readonly lignes = signal&lt;Produit[]&gt;([]);</span><span class="cl">  readonly nombre = computed(() =&gt; this.lignes().length);</span><span class="cl">  readonly total = computed(() =&gt; this.lignes().reduce((somme, p) =&gt; somme + p.prix, 0));</span><span class="cl"> </span><span class="cl">  ajouter(produit: Produit): void {</span><span class="cl">    this.lignes.update((lignes) =&gt; [...lignes, produit]); // un nouveau tableau, jamais push()</span><span class="cl">  }</span><span class="cl">}</span></code></pre></figure>
+<figure class="code"><figcaption><span class="flabel chemin">src/app/exemples/magasin.ts</span><button class="copy" type="button" title="Copier le code">Copier</button></figcaption><pre><code data-raw="import { Component, inject } from &#x27;@angular/core&#x27;;&#10;import { CurrencyPipe } from &#x27;@angular/common&#x27;;&#10;import { PanierService } from &#x27;./panier-service&#x27;;&#10;import { PRODUITS } from &#x27;./produit&#x27;;&#10;&#10;@Component({&#10;  selector: &#x27;app-entete-panier&#x27;,&#10;  imports: [CurrencyPipe],&#10;  template: `&lt;p&gt;Panier : {{ panier.nombre() }} article(s), {{ panier.total() | currency: &#x27;EUR&#x27; }}&lt;/p&gt;`,&#10;})&#10;export class EntetePanier {&#10;  protected readonly panier = inject(PanierService); // demande le service à Angular&#10;}&#10;&#10;@Component({&#10;  selector: &#x27;app-magasin&#x27;,&#10;  imports: [EntetePanier],&#10;  template: `&#10;    &lt;app-entete-panier /&gt;&#10;    @for (produit of produits; track produit.id) {&#10;      &lt;button type=&quot;button&quot; (click)=&quot;panier.ajouter(produit)&quot;&gt;Ajouter {{ produit.titre }}&lt;/button&gt;&#10;    }&#10;  `,&#10;})&#10;export class Magasin {&#10;  protected readonly panier = inject(PanierService); // la même instance que l&#x27;en-tête&#10;  protected readonly produits = PRODUITS;&#10;}"><span class="cl">import { Component, inject } from '@angular/core';</span><span class="cl">import { CurrencyPipe } from '@angular/common';</span><span class="cl">import { PanierService } from './panier-service';</span><span class="cl">import { PRODUITS } from './produit';</span><span class="cl"> </span><span class="cl">@Component({</span><span class="cl">  selector: 'app-entete-panier',</span><span class="cl">  imports: [CurrencyPipe],</span><span class="cl">  template: `&lt;p&gt;Panier : {{ panier.nombre() }} article(s), {{ panier.total() | currency: 'EUR' }}&lt;/p&gt;`,</span><span class="cl">})</span><span class="cl">export class EntetePanier {</span><span class="cl">  protected readonly panier = inject(PanierService); // demande le service à Angular</span><span class="cl">}</span><span class="cl"> </span><span class="cl">@Component({</span><span class="cl">  selector: 'app-magasin',</span><span class="cl">  imports: [EntetePanier],</span><span class="cl">  template: `</span><span class="cl">    &lt;app-entete-panier /&gt;</span><span class="cl">    @for (produit of produits; track produit.id) {</span><span class="cl">      &lt;button type="button" (click)="panier.ajouter(produit)"&gt;Ajouter {{ produit.titre }}&lt;/button&gt;</span><span class="cl">    }</span><span class="cl">  `,</span><span class="cl">})</span><span class="cl">export class Magasin {</span><span class="cl">  protected readonly panier = inject(PanierService); // la même instance que l'en-tête</span><span class="cl">  protected readonly produits = PRODUITS;</span><span class="cl">}</span></code></pre></figure>
+<p><code>@Service()</code>, apparu avec Angular 22, déclare un service dont Angular crée une seule instance, partagée par toute
+l'application, la première fois qu'on la demande. <code>inject(PanierService)</code> demande cette instance. L'en-tête et le
+magasin reçoivent le même panier : ce que l'un ajoute, l'autre l'affiche.</p>
+<aside class="callout"><div class="ct">Ce qu&#x27;on voit</div><p>« Panier : 0 article(s), 0,00 € ». Un clic sur « Ajouter Mascara », puis sur « Ajouter Parfum » : « Panier : 2
+article(s), 59,98 € ».</p>
+</aside>
+<aside class="callout piege"><div class="ct">Pièges</div><ul>
+<li><code>new PanierService()</code> crée un second panier, que personne d'autre ne voit : on demande toujours un service avec
+<code>inject()</code>.</li>
+<li>Un service <code>@Service()</code> reçoit lui aussi ses propres services par <code>inject()</code>. Par le constructeur, la construction
+échoue : « NG2028: @Service class cannot use constructor dependency injection. Use the <code>inject</code> function instead. »</li>
+</ul>
+</aside>
+<p>Avant Angular 22, on écrivait <code>@Injectable({ providedIn: 'root' })</code> : cette écriture fonctionne toujours, et c'est elle
+qu'on trouve dans la plupart des tutoriels (partie 16). Pour une instance par composant (chaque liste avec son propre
+filtre) : <code>@Service({ autoProvided: false })</code>, puis <code>providers: [FiltreService]</code> dans le composant.</p>
+<aside class="callout retenir"><div class="ct">À retenir</div><ul>
+<li>Ce qui est partagé (données, appels à l'API, état commun) va dans un service.</li>
+<li>On ne fait jamais <code>new</code> sur un service : on le demande avec <code>inject()</code>.</li>
+</ul>
+</aside>
+<aside class="callout experience"><div class="ct">Dans ShopFlow</div><p><code>services/cart-service.ts</code> (le panier), <code>services/auth-service.ts</code> (la session), <code>services/product-service.ts</code> (les
+produits).</p>
+</aside>
+</article></section><section class="partie" id="p10"><div class="ph"><span class="pn">10</span><h2>Les observables et HttpClient</h2></div><article class="notion"><aside class="callout image"><div class="ct">L&#x27;image</div><p>Un observable est un abonnement à un journal : tant qu'on ne s'abonne pas, rien n'arrive ; une fois abonné, chaque
+numéro arrive quand il est prêt. Une requête HTTP est un abonnement qui ne livre qu'un numéro : la réponse du serveur.</p>
+</aside>
+<p>Le service prépare la requête :</p>
+<figure class="code"><figcaption><span class="flabel chemin">src/app/exemples/produits-api.ts</span><button class="copy" type="button" title="Copier le code">Copier</button></figcaption><pre><code data-raw="import { HttpClient } from &#x27;@angular/common/http&#x27;;&#10;import { inject, Service } from &#x27;@angular/core&#x27;;&#10;import { map, Observable } from &#x27;rxjs&#x27;;&#10;&#10;export interface ProduitApi {&#10;  id: number;&#10;  title: string;&#10;  price: number;&#10;}&#10;&#10;@Service()&#10;export class ProduitsApi {&#10;  private readonly http = inject(HttpClient);&#10;&#10;  // Prépare la requête ; elle ne part qu&#x27;au moment où quelqu&#x27;un s&#x27;abonne&#10;  liste(): Observable&lt;ProduitApi[]&gt; {&#10;    return this.http&#10;      .get&lt;{ products: ProduitApi[] }&gt;(&#x27;https://dummyjson.com/products?limit=5&amp;select=title,price&#x27;)&#10;      .pipe(map((reponse) =&gt; reponse.products)); // on ne garde que le tableau&#10;  }&#10;}"><span class="cl">import { HttpClient } from '@angular/common/http';</span><span class="cl">import { inject, Service } from '@angular/core';</span><span class="cl">import { map, Observable } from 'rxjs';</span><span class="cl"> </span><span class="cl">export interface ProduitApi {</span><span class="cl">  id: number;</span><span class="cl">  title: string;</span><span class="cl">  price: number;</span><span class="cl">}</span><span class="cl"> </span><span class="cl">@Service()</span><span class="cl">export class ProduitsApi {</span><span class="cl">  private readonly http = inject(HttpClient);</span><span class="cl"> </span><span class="cl">  // Prépare la requête ; elle ne part qu'au moment où quelqu'un s'abonne</span><span class="cl">  liste(): Observable&lt;ProduitApi[]&gt; {</span><span class="cl">    return this.http</span><span class="cl">      .get&lt;{ products: ProduitApi[] }&gt;('https://dummyjson.com/products?limit=5&amp;select=title,price')</span><span class="cl">      .pipe(map((reponse) =&gt; reponse.products)); // on ne garde que le tableau</span><span class="cl">  }</span><span class="cl">}</span></code></pre></figure>
+<p>Le composant s'y abonne, de deux façons :</p>
+<figure class="code"><figcaption><span class="flabel chemin">src/app/exemples/catalogue.ts</span><button class="copy" type="button" title="Copier le code">Copier</button></figcaption><pre><code data-raw="import { Component, inject } from &#x27;@angular/core&#x27;;&#10;import { AsyncPipe, CurrencyPipe } from &#x27;@angular/common&#x27;;&#10;import { toSignal } from &#x27;@angular/core/rxjs-interop&#x27;;&#10;import { ProduitsApi } from &#x27;./produits-api&#x27;;&#10;&#10;@Component({&#10;  selector: &#x27;app-catalogue&#x27;,&#10;  imports: [AsyncPipe, CurrencyPipe],&#10;  template: `&#10;    &lt;h3&gt;Avec le pipe async, comme dans ShopFlow&lt;/h3&gt;&#10;    @if (produits$ | async; as produits) {&#10;      &lt;ul&gt;&#10;        @for (p of produits; track p.id) {&#10;          &lt;li&gt;{{ p.title }} : {{ p.price | currency: &#x27;EUR&#x27; }}&lt;/li&gt;&#10;        }&#10;      &lt;/ul&gt;&#10;    } @else {&#10;      &lt;p&gt;Chargement…&lt;/p&gt;&#10;    }&#10;    &lt;h3&gt;Avec toSignal&lt;/h3&gt;&#10;    &lt;p&gt;{{ produits().length }} produit(s) reçu(s)&lt;/p&gt;&#10;  `,&#10;})&#10;export class Catalogue {&#10;  private readonly api = inject(ProduitsApi);&#10;  protected readonly produits$ = this.api.liste(); // un observable : le $ final est une convention&#10;  protected readonly produits = toSignal(this.api.liste(), { initialValue: [] }); // le même, en signal&#10;}"><span class="cl">import { Component, inject } from '@angular/core';</span><span class="cl">import { AsyncPipe, CurrencyPipe } from '@angular/common';</span><span class="cl">import { toSignal } from '@angular/core/rxjs-interop';</span><span class="cl">import { ProduitsApi } from './produits-api';</span><span class="cl"> </span><span class="cl">@Component({</span><span class="cl">  selector: 'app-catalogue',</span><span class="cl">  imports: [AsyncPipe, CurrencyPipe],</span><span class="cl">  template: `</span><span class="cl">    &lt;h3&gt;Avec le pipe async, comme dans ShopFlow&lt;/h3&gt;</span><span class="cl">    @if (produits$ | async; as produits) {</span><span class="cl">      &lt;ul&gt;</span><span class="cl">        @for (p of produits; track p.id) {</span><span class="cl">          &lt;li&gt;{{ p.title }} : {{ p.price | currency: 'EUR' }}&lt;/li&gt;</span><span class="cl">        }</span><span class="cl">      &lt;/ul&gt;</span><span class="cl">    } @else {</span><span class="cl">      &lt;p&gt;Chargement…&lt;/p&gt;</span><span class="cl">    }</span><span class="cl">    &lt;h3&gt;Avec toSignal&lt;/h3&gt;</span><span class="cl">    &lt;p&gt;{{ produits().length }} produit(s) reçu(s)&lt;/p&gt;</span><span class="cl">  `,</span><span class="cl">})</span><span class="cl">export class Catalogue {</span><span class="cl">  private readonly api = inject(ProduitsApi);</span><span class="cl">  protected readonly produits$ = this.api.liste(); // un observable : le $ final est une convention</span><span class="cl">  protected readonly produits = toSignal(this.api.liste(), { initialValue: [] }); // le même, en signal</span><span class="cl">}</span></code></pre></figure>
+<table>
+<thead>
+<tr>
+<th>Écriture</th>
+<th>Sens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>http.get&lt;T&gt;(adresse)</code></td>
+<td>Prépare une requête GET ; renvoie un <code>Observable&lt;T&gt;</code></td>
+</tr>
+<tr>
+<td><code>.pipe(map(…))</code></td>
+<td>Transforme ce qui arrive avant de le livrer</td>
+</tr>
+<tr>
+<td><code>produits$ | async</code></td>
+<td>S'abonne dans le template, affiche chaque valeur, se désabonne quand le composant disparaît</td>
+</tr>
+<tr>
+<td><code>@if (produits$ | async; as produits)</code></td>
+<td>Nomme la valeur reçue ; affiche le bloc <code>@else</code> tant qu'elle n'est pas arrivée</td>
+</tr>
+<tr>
+<td><code>toSignal(observable, { initialValue: [] })</code></td>
+<td>S'abonne et range chaque valeur dans un signal</td>
+</tr>
+</tbody>
+</table>
+<p><code>HttpClient</code> ne fonctionne que si <code>provideHttpClient()</code> figure dans <code>app.config.ts</code>, ce qui est fait. RxJS, la
+bibliothèque des observables, fournit des dizaines d'opérateurs (<code>map</code>, <code>filter</code>, <code>switchMap</code>, <code>debounceTime</code>…) ; le
+jour 2 en utilise plusieurs. Pour les voir en schémas animés : <a href="https://rxmarbles.com">RxMarbles</a>.</p>
+<aside class="callout"><div class="ct">Ce qu&#x27;on voit</div><p>« Chargement… », puis cinq produits de DummyJSON : « Essence Mascara Lash Princess : 9,99 € », « Eyeshadow Palette with
+Mirror : 19,99 € »… Sous « Avec toSignal » : « 5 produit(s) reçu(s) ». Dans l'onglet Réseau (F12) : <strong>deux</strong> requêtes
+<code>products?limit=5…</code>, une par abonnement.</p>
+</aside>
+<aside class="callout piege"><div class="ct">Piège</div><p>Chaque abonnement relance la requête : ici, <code>| async</code> et <code>toSignal</code> en envoient deux. Dans ShopFlow, c'est la ligne 5
+du cahier des charges (le catalogue demandé trois fois), corrigée au jour 2.</p>
+</aside>
+<aside class="callout retenir"><div class="ct">À retenir</div><ul>
+<li>Une requête ne part qu'à l'abonnement, et chaque abonnement en envoie une.</li>
+<li>Dans un template : <code>| async</code> ou <code>toSignal()</code>, qui se désabonnent tout seuls.</li>
+</ul>
+</aside>
+<aside class="callout experience"><div class="ct">Dans ShopFlow</div><p><code>services/product-service.ts</code> (<code>getAll()</code>, <code>getById()</code>), et <code>| async</code> dans presque tous les templates. Le panier y est
+un <code>BehaviorSubject</code> : un observable qui garde sa dernière valeur.</p>
+</aside>
+</article></section><section class="partie" id="p11"><div class="ph"><span class="pn">11</span><h2>Le routage</h2></div><article class="notion"><aside class="callout image"><div class="ct">L&#x27;image</div><p>Le routeur est le plan d'un centre commercial : à chaque adresse correspond une boutique. <code>&lt;router-outlet /&gt;</code> est
+l'emplacement où s'installe la boutique de l'adresse courante ; le reste (en-tête, menu) ne bouge pas.</p>
+</aside>
+<p>Créer <code>routage.ts</code>, puis remplacer <code>src/app/app.routes.ts</code> :</p>
+<figure class="code"><figcaption><span class="flabel chemin">src/app/exemples/routage.ts</span><button class="copy" type="button" title="Copier le code">Copier</button></figcaption><pre><code data-raw="import { Component, inject } from &#x27;@angular/core&#x27;;&#10;import { AsyncPipe } from &#x27;@angular/common&#x27;;&#10;import { ActivatedRoute, RouterLink } from &#x27;@angular/router&#x27;;&#10;import { map } from &#x27;rxjs&#x27;;&#10;import { PRODUITS } from &#x27;./produit&#x27;;&#10;&#10;@Component({&#10;  selector: &#x27;app-liste-produits&#x27;,&#10;  imports: [RouterLink],&#10;  template: `&#10;    &lt;ul&gt;&#10;      @for (p of produits; track p.id) {&#10;        &lt;li&gt;&lt;a [routerLink]=&quot;[&#x27;/produits&#x27;, p.id]&quot;&gt;{{ p.titre }}&lt;/a&gt;&lt;/li&gt;&#10;      }&#10;    &lt;/ul&gt;&#10;  `,&#10;})&#10;export class ListeProduits {&#10;  protected readonly produits = PRODUITS;&#10;}&#10;&#10;@Component({&#10;  selector: &#x27;app-fiche-produit&#x27;,&#10;  imports: [AsyncPipe, RouterLink],&#10;  template: `&#10;    @if (produit$ | async; as produit) {&#10;      &lt;h3&gt;{{ produit.titre }}&lt;/h3&gt;&#10;      &lt;p&gt;Produit n° {{ produit.id }}&lt;/p&gt;&#10;    } @else {&#10;      &lt;p&gt;Produit introuvable&lt;/p&gt;&#10;    }&#10;    &lt;a routerLink=&quot;/produits&quot;&gt;Retour à la liste&lt;/a&gt;&#10;  `,&#10;})&#10;export class FicheProduit {&#10;  private readonly route = inject(ActivatedRoute);&#10;  // L&#x27;identifiant lu dans l&#x27;adresse : /produits/2 donne &#x27;2&#x27;&#10;  protected readonly produit$ = this.route.paramMap.pipe(&#10;    map((params) =&gt; PRODUITS.find((p) =&gt; p.id === Number(params.get(&#x27;id&#x27;)))),&#10;  );&#10;}"><span class="cl">import { Component, inject } from '@angular/core';</span><span class="cl">import { AsyncPipe } from '@angular/common';</span><span class="cl">import { ActivatedRoute, RouterLink } from '@angular/router';</span><span class="cl">import { map } from 'rxjs';</span><span class="cl">import { PRODUITS } from './produit';</span><span class="cl"> </span><span class="cl">@Component({</span><span class="cl">  selector: 'app-liste-produits',</span><span class="cl">  imports: [RouterLink],</span><span class="cl">  template: `</span><span class="cl">    &lt;ul&gt;</span><span class="cl">      @for (p of produits; track p.id) {</span><span class="cl">        &lt;li&gt;&lt;a [routerLink]="['/produits', p.id]"&gt;{{ p.titre }}&lt;/a&gt;&lt;/li&gt;</span><span class="cl">      }</span><span class="cl">    &lt;/ul&gt;</span><span class="cl">  `,</span><span class="cl">})</span><span class="cl">export class ListeProduits {</span><span class="cl">  protected readonly produits = PRODUITS;</span><span class="cl">}</span><span class="cl"> </span><span class="cl">@Component({</span><span class="cl">  selector: 'app-fiche-produit',</span><span class="cl">  imports: [AsyncPipe, RouterLink],</span><span class="cl">  template: `</span><span class="cl">    @if (produit$ | async; as produit) {</span><span class="cl">      &lt;h3&gt;{{ produit.titre }}&lt;/h3&gt;</span><span class="cl">      &lt;p&gt;Produit n° {{ produit.id }}&lt;/p&gt;</span><span class="cl">    } @else {</span><span class="cl">      &lt;p&gt;Produit introuvable&lt;/p&gt;</span><span class="cl">    }</span><span class="cl">    &lt;a routerLink="/produits"&gt;Retour à la liste&lt;/a&gt;</span><span class="cl">  `,</span><span class="cl">})</span><span class="cl">export class FicheProduit {</span><span class="cl">  private readonly route = inject(ActivatedRoute);</span><span class="cl">  // L'identifiant lu dans l'adresse : /produits/2 donne '2'</span><span class="cl">  protected readonly produit$ = this.route.paramMap.pipe(</span><span class="cl">    map((params) =&gt; PRODUITS.find((p) =&gt; p.id === Number(params.get('id')))),</span><span class="cl">  );</span><span class="cl">}</span></code></pre></figure>
+<figure class="code"><figcaption><span class="flabel chemin">src/app/app.routes.ts</span><button class="copy" type="button" title="Copier le code">Copier</button></figcaption><pre><code data-raw="import { Routes } from &#x27;@angular/router&#x27;;&#10;import { FicheProduit, ListeProduits } from &#x27;./exemples/routage&#x27;;&#10;&#10;export const routes: Routes = [&#10;  { path: &#x27;&#x27;, redirectTo: &#x27;produits&#x27;, pathMatch: &#x27;full&#x27; },&#10;  { path: &#x27;produits&#x27;, component: ListeProduits },&#10;  { path: &#x27;produits/:id&#x27;, component: FicheProduit }, // :id = une partie variable de l&#x27;adresse&#10;  { path: &#x27;**&#x27;, redirectTo: &#x27;produits&#x27; }, // toute autre adresse&#10;];"><span class="cl">import { Routes } from '@angular/router';</span><span class="cl">import { FicheProduit, ListeProduits } from './exemples/routage';</span><span class="cl"> </span><span class="cl">export const routes: Routes = [</span><span class="cl">  { path: '', redirectTo: 'produits', pathMatch: 'full' },</span><span class="cl">  { path: 'produits', component: ListeProduits },</span><span class="cl">  { path: 'produits/:id', component: FicheProduit }, // :id = une partie variable de l'adresse</span><span class="cl">  { path: '**', redirectTo: 'produits' }, // toute autre adresse</span><span class="cl">];</span></code></pre></figure>
+<table>
+<thead>
+<tr>
+<th>Écriture</th>
+<th>Sens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{ path: 'produits', component: ListeProduits }</code></td>
+<td>L'adresse <code>/produits</code> affiche <code>ListeProduits</code></td>
+</tr>
+<tr>
+<td><code>'produits/:id'</code></td>
+<td><code>:id</code> est une partie variable : <code>/produits/3</code></td>
+</tr>
+<tr>
+<td><code>redirectTo</code> et <code>pathMatch: 'full'</code></td>
+<td>L'adresse vide renvoie vers <code>/produits</code></td>
+</tr>
+<tr>
+<td><code>'**'</code></td>
+<td>Toute autre adresse ; toujours en dernier, car les routes sont lues dans l'ordre</td>
+</tr>
+<tr>
+<td><code>[routerLink]=&quot;['/produits', p.id]&quot;</code></td>
+<td>Un lien vers <code>/produits/3</code>, sans recharger la page</td>
+</tr>
+<tr>
+<td><code>inject(ActivatedRoute).paramMap</code></td>
+<td>Les paramètres de l'adresse, sous forme d'observable</td>
+</tr>
+</tbody>
+</table>
+<aside class="callout"><div class="ct">Ce qu&#x27;on voit</div><p>Sous l'exemple affiché par <code>app.ts</code>, la liste « Mascara, Rouge à lèvres, Parfum » (l'adresse <code>/</code> est devenue
+<code>/produits</code>). Un clic sur « Parfum » : l'adresse devient <code>/produits/3</code>, la page affiche « Parfum » et « Produit n° 3 »,
+sans rechargement. <code>/produits/99</code> : « Produit introuvable ». Une adresse inconnue ramène à <code>/produits</code>.</p>
+</aside>
+<p><code>paramMap</code> est un observable, car l'identifiant peut changer sans que la page soit recréée (un lien d'une fiche vers une
+autre). Le chargement d'une page à la demande (<code>loadComponent</code>) et la protection des pages (les guards) sont au
+programme du jour 2.</p>
+<aside class="callout retenir"><div class="ct">À retenir</div><ul>
+<li>Une route : une adresse et un composant ; <code>**</code> en dernier.</li>
+<li>Un lien interne : <code>routerLink</code>, jamais <code>href</code>, qui rechargerait toute l'application.</li>
+</ul>
+</aside>
+<aside class="callout experience"><div class="ct">Dans ShopFlow</div><p><code>app.routes.ts</code> (catalogue, fiche, panier, commande, connexion, et l'administration avec ses routes enfants) ;
+<code>pages/product-detail/product-detail.ts</code> lit l'identifiant avec <code>paramMap</code>.</p>
+</aside>
+</article></section><section class="partie" id="p12"><div class="ph"><span class="pn">12</span><h2>Les formulaires réactifs</h2></div><article class="notion"><aside class="callout image"><div class="ct">L&#x27;image</div><p>Un dossier d'inscription vérifié à l'accueil : chaque case a ses règles, et le dossier n'est accepté que lorsqu'elles
+sont toutes respectées.</p>
+</aside>
+<figure class="code"><figcaption><span class="flabel chemin">src/app/exemples/inscription.ts</span><button class="copy" type="button" title="Copier le code">Copier</button></figcaption><pre><code data-raw="import { Component, inject, signal } from &#x27;@angular/core&#x27;;&#10;import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from &#x27;@angular/forms&#x27;;&#10;&#10;@Component({&#10;  selector: &#x27;app-inscription&#x27;,&#10;  imports: [ReactiveFormsModule],&#10;  template: `&#10;    &lt;form [formGroup]=&quot;formulaire&quot; (ngSubmit)=&quot;envoyer()&quot;&gt;&#10;      &lt;label&gt;Nom &lt;input formControlName=&quot;nom&quot; /&gt;&lt;/label&gt;&#10;      @if (formulaire.controls.nom.invalid &amp;&amp; formulaire.controls.nom.touched) {&#10;        &lt;p class=&quot;erreur&quot;&gt;Le nom est obligatoire (2 caractères au moins).&lt;/p&gt;&#10;      }&#10;      &lt;label&gt;E-mail &lt;input type=&quot;email&quot; formControlName=&quot;email&quot; /&gt;&lt;/label&gt;&#10;      @if (formulaire.controls.email.invalid &amp;&amp; formulaire.controls.email.touched) {&#10;        &lt;p class=&quot;erreur&quot;&gt;Adresse e-mail invalide.&lt;/p&gt;&#10;      }&#10;      &lt;button type=&quot;submit&quot;&gt;S&#x27;inscrire&lt;/button&gt;&#10;    &lt;/form&gt;&#10;    @if (inscrit()) {&#10;      &lt;p&gt;Bienvenue {{ inscrit() }} !&lt;/p&gt;&#10;    }&#10;  `,&#10;  styles: `&#10;    .erreur { color: #c3002f; }&#10;  `,&#10;})&#10;export class Inscription {&#10;  private readonly fb = inject(NonNullableFormBuilder);&#10;  protected readonly formulaire = this.fb.group({&#10;    nom: [&#x27;&#x27;, [Validators.required, Validators.minLength(2)]],&#10;    email: [&#x27;&#x27;, [Validators.required, Validators.email]],&#10;  });&#10;  protected readonly inscrit = signal(&#x27;&#x27;);&#10;&#10;  protected envoyer(): void {&#10;    if (this.formulaire.invalid) {&#10;      this.formulaire.markAllAsTouched(); // affiche tous les messages d&#x27;un coup&#10;      return;&#10;    }&#10;    this.inscrit.set(this.formulaire.getRawValue().nom);&#10;  }&#10;}"><span class="cl">import { Component, inject, signal } from '@angular/core';</span><span class="cl">import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';</span><span class="cl"> </span><span class="cl">@Component({</span><span class="cl">  selector: 'app-inscription',</span><span class="cl">  imports: [ReactiveFormsModule],</span><span class="cl">  template: `</span><span class="cl">    &lt;form [formGroup]="formulaire" (ngSubmit)="envoyer()"&gt;</span><span class="cl">      &lt;label&gt;Nom &lt;input formControlName="nom" /&gt;&lt;/label&gt;</span><span class="cl">      @if (formulaire.controls.nom.invalid &amp;&amp; formulaire.controls.nom.touched) {</span><span class="cl">        &lt;p class="erreur"&gt;Le nom est obligatoire (2 caractères au moins).&lt;/p&gt;</span><span class="cl">      }</span><span class="cl">      &lt;label&gt;E-mail &lt;input type="email" formControlName="email" /&gt;&lt;/label&gt;</span><span class="cl">      @if (formulaire.controls.email.invalid &amp;&amp; formulaire.controls.email.touched) {</span><span class="cl">        &lt;p class="erreur"&gt;Adresse e-mail invalide.&lt;/p&gt;</span><span class="cl">      }</span><span class="cl">      &lt;button type="submit"&gt;S'inscrire&lt;/button&gt;</span><span class="cl">    &lt;/form&gt;</span><span class="cl">    @if (inscrit()) {</span><span class="cl">      &lt;p&gt;Bienvenue {{ inscrit() }} !&lt;/p&gt;</span><span class="cl">    }</span><span class="cl">  `,</span><span class="cl">  styles: `</span><span class="cl">    .erreur { color: #c3002f; }</span><span class="cl">  `,</span><span class="cl">})</span><span class="cl">export class Inscription {</span><span class="cl">  private readonly fb = inject(NonNullableFormBuilder);</span><span class="cl">  protected readonly formulaire = this.fb.group({</span><span class="cl">    nom: ['', [Validators.required, Validators.minLength(2)]],</span><span class="cl">    email: ['', [Validators.required, Validators.email]],</span><span class="cl">  });</span><span class="cl">  protected readonly inscrit = signal('');</span><span class="cl"> </span><span class="cl">  protected envoyer(): void {</span><span class="cl">    if (this.formulaire.invalid) {</span><span class="cl">      this.formulaire.markAllAsTouched(); // affiche tous les messages d'un coup</span><span class="cl">      return;</span><span class="cl">    }</span><span class="cl">    this.inscrit.set(this.formulaire.getRawValue().nom);</span><span class="cl">  }</span><span class="cl">}</span></code></pre></figure>
+<table>
+<thead>
+<tr>
+<th>Écriture</th>
+<th>Sens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>inject(NonNullableFormBuilder).group({ … })</code></td>
+<td>Construit le formulaire : un champ par clé, avec sa valeur de départ et ses règles</td>
+</tr>
+<tr>
+<td><code>Validators.required</code>, <code>minLength(2)</code>, <code>email</code></td>
+<td>Les règles ; il en existe d'autres (<code>min</code>, <code>max</code>, <code>pattern</code>)</td>
+</tr>
+<tr>
+<td><code>[formGroup]=&quot;formulaire&quot;</code>, <code>formControlName=&quot;nom&quot;</code></td>
+<td>Relient le formulaire HTML à celui du composant</td>
+</tr>
+<tr>
+<td><code>(ngSubmit)=&quot;envoyer()&quot;</code></td>
+<td>L'envoi du formulaire</td>
+</tr>
+<tr>
+<td><code>controls.nom.invalid</code>, <code>controls.nom.touched</code></td>
+<td>Le champ ne respecte pas ses règles ; l'utilisateur l'a quitté</td>
+</tr>
+<tr>
+<td><code>markAllAsTouched()</code></td>
+<td>Marque tous les champs comme touchés, pour afficher tous les messages</td>
+</tr>
+<tr>
+<td><code>getRawValue()</code></td>
+<td>Les valeurs saisies, typées</td>
+</tr>
+</tbody>
+</table>
+<p><code>ReactiveFormsModule</code>, dans <code>imports</code>, apporte <code>[formGroup]</code> et <code>formControlName</code>. Les formulaires pilotés par le
+template (<code>ngModel</code>) existent aussi, pour un ou deux champs ; dès qu'il y a des règles, on préfère les formulaires
+réactifs, dont les règles sont écrites dans le code et se testent.</p>
+<aside class="callout"><div class="ct">Ce qu&#x27;on voit</div><p>Un clic sur « S'inscrire » sans rien remplir : « Le nom est obligatoire (2 caractères au moins). » et « Adresse e-mail
+invalide. ». Avec « Léa » et « lea@exemple.fr » : « Bienvenue Léa ! ».</p>
+</aside>
+<aside class="callout retenir"><div class="ct">À retenir</div><ul>
+<li>Les règles dans le composant, les messages dans le template.</li>
+<li>Une erreur ne s'affiche que sur un champ touché ; sinon, le formulaire serait rouge avant toute saisie.</li>
+</ul>
+</aside>
+<aside class="callout experience"><div class="ct">Dans ShopFlow</div><p>La page de commande (<code>pages/checkout/checkout.ts</code>) accepte un envoi vide : c'est la ligne 8 du cahier des charges,
+corrigée au jour 3 avec un formulaire réactif.</p>
+</aside>
+</article></section><section class="partie" id="p13"><div class="ph"><span class="pn">13</span><h2>Le cycle de vie</h2></div><article class="notion"><aside class="callout image"><div class="ct">L&#x27;image</div><p>Un composant vit comme un employé saisonnier : on l'installe à son poste (<code>ngOnInit</code>), il travaille, et avant de partir
+il rend ses clés et éteint la lumière (<code>ngOnDestroy</code>).</p>
+</aside>
+<figure class="code"><figcaption><span class="flabel chemin">src/app/exemples/horloge.ts</span><button class="copy" type="button" title="Copier le code">Copier</button></figcaption><pre><code data-raw="import { Component, OnDestroy, OnInit, signal } from &#x27;@angular/core&#x27;;&#10;&#10;@Component({&#10;  selector: &#x27;app-horloge&#x27;,&#10;  template: `&lt;p&gt;Il est {{ heure() }}&lt;/p&gt;`,&#10;})&#10;export class Horloge implements OnInit, OnDestroy {&#10;  protected readonly heure = signal(new Date().toLocaleTimeString(&#x27;fr-FR&#x27;));&#10;  private minuteur?: ReturnType&lt;typeof setInterval&gt;;&#10;&#10;  ngOnInit(): void {&#10;    console.log(&#x27;Horloge : ngOnInit&#x27;);&#10;    this.minuteur = setInterval(() =&gt; this.heure.set(new Date().toLocaleTimeString(&#x27;fr-FR&#x27;)), 1000);&#10;  }&#10;&#10;  ngOnDestroy(): void {&#10;    console.log(&#x27;Horloge : ngOnDestroy&#x27;);&#10;    clearInterval(this.minuteur); // sinon le minuteur tournerait encore après la disparition&#10;  }&#10;}&#10;&#10;@Component({&#10;  selector: &#x27;app-cycle-de-vie&#x27;,&#10;  imports: [Horloge],&#10;  template: `&#10;    &lt;button type=&quot;button&quot; (click)=&quot;visible.set(!visible())&quot;&gt;&#10;      {{ visible() ? &#x27;Masquer&#x27; : &#x27;Afficher&#x27; }} l&#x27;horloge&#10;    &lt;/button&gt;&#10;    @if (visible()) {&#10;      &lt;app-horloge /&gt;&#10;    }&#10;  `,&#10;})&#10;export class CycleDeVie {&#10;  protected readonly visible = signal(true);&#10;}"><span class="cl">import { Component, OnDestroy, OnInit, signal } from '@angular/core';</span><span class="cl"> </span><span class="cl">@Component({</span><span class="cl">  selector: 'app-horloge',</span><span class="cl">  template: `&lt;p&gt;Il est {{ heure() }}&lt;/p&gt;`,</span><span class="cl">})</span><span class="cl">export class Horloge implements OnInit, OnDestroy {</span><span class="cl">  protected readonly heure = signal(new Date().toLocaleTimeString('fr-FR'));</span><span class="cl">  private minuteur?: ReturnType&lt;typeof setInterval&gt;;</span><span class="cl"> </span><span class="cl">  ngOnInit(): void {</span><span class="cl">    console.log('Horloge : ngOnInit');</span><span class="cl">    this.minuteur = setInterval(() =&gt; this.heure.set(new Date().toLocaleTimeString('fr-FR')), 1000);</span><span class="cl">  }</span><span class="cl"> </span><span class="cl">  ngOnDestroy(): void {</span><span class="cl">    console.log('Horloge : ngOnDestroy');</span><span class="cl">    clearInterval(this.minuteur); // sinon le minuteur tournerait encore après la disparition</span><span class="cl">  }</span><span class="cl">}</span><span class="cl"> </span><span class="cl">@Component({</span><span class="cl">  selector: 'app-cycle-de-vie',</span><span class="cl">  imports: [Horloge],</span><span class="cl">  template: `</span><span class="cl">    &lt;button type="button" (click)="visible.set(!visible())"&gt;</span><span class="cl">      {{ visible() ? 'Masquer' : 'Afficher' }} l'horloge</span><span class="cl">    &lt;/button&gt;</span><span class="cl">    @if (visible()) {</span><span class="cl">      &lt;app-horloge /&gt;</span><span class="cl">    }</span><span class="cl">  `,</span><span class="cl">})</span><span class="cl">export class CycleDeVie {</span><span class="cl">  protected readonly visible = signal(true);</span><span class="cl">}</span></code></pre></figure>
+<p>Angular appelle ces méthodes au bon moment :</p>
+<ul>
+<li>le constructeur : la classe est créée ; on y demande les services (<code>inject()</code>), rien de plus ;</li>
+<li><code>ngOnInit()</code> : le composant est prêt et ses entrées sont reçues ; on y lance le travail (un minuteur, un premier
+chargement) ;</li>
+<li><code>ngOnDestroy()</code> : le composant va disparaître (un <code>@if</code> devenu faux, un changement de page) ; on y arrête ce qui
+tournerait encore.</li>
+</ul>
+<aside class="callout"><div class="ct">Ce qu&#x27;on voit</div><p>L'heure, mise à jour chaque seconde, et dans la console : « Horloge : ngOnInit ». Un clic sur « Masquer l'horloge » :
+l'horloge disparaît et la console affiche « Horloge : ngOnDestroy ».</p>
+</aside>
+<aside class="callout piege"><div class="ct">Piège</div><p>Un minuteur ou un abonnement qu'on n'arrête pas continue de tourner après la disparition du composant, et un nouveau
+s'y ajoute à chaque affichage. C'est la ligne 6 du cahier des charges de ShopFlow (l'administration continue d'envoyer
+des requêtes une fois quittée), corrigée au jour 2.</p>
+</aside>
+<p>Autres écritures qu'on rencontre : <code>inject(DestroyRef).onDestroy(() =&gt; …)</code>, et, pour un observable,
+<code>takeUntilDestroyed()</code>, qui le désabonne à la destruction. Les autres méthodes du cycle de vie (<code>ngOnChanges</code>,
+<code>ngAfterViewInit</code>…) servent moins depuis les signaux : une valeur qui dépend d'une entrée s'écrit en <code>computed()</code>.</p>
+<aside class="callout retenir"><div class="ct">À retenir</div><ul>
+<li><code>inject()</code> à la création, le travail dans <code>ngOnInit()</code>, le ménage dans <code>ngOnDestroy()</code>.</li>
+</ul>
+</aside>
+<aside class="callout experience"><div class="ct">Dans ShopFlow</div><p><code>admin/live-orders.ts</code> et <code>pages/orders/orders.ts</code>.</p>
+</aside>
+</article></section><section class="partie" id="p14"><div class="ph"><span class="pn">14</span><h2>Quand l&#x27;affichage se met-il à jour ?</h2></div><article class="notion"><aside class="callout image"><div class="ct">L&#x27;image</div><p>Angular ne surveille pas tout en permanence : il redessine un composant quand on le prévient, comme un livreur qui ne
+passe que si on l'appelle.</p>
+</aside>
+<figure class="code"><figcaption><span class="flabel chemin">src/app/exemples/rafraichissement.ts</span><button class="copy" type="button" title="Copier le code">Copier</button></figcaption><pre><code data-raw="import { Component, signal } from &#x27;@angular/core&#x27;;&#10;&#10;@Component({&#10;  selector: &#x27;app-rafraichissement&#x27;,&#10;  template: `&#10;    &lt;p&gt;Propriété ordinaire : {{ ordinaire }}&lt;/p&gt;&#10;    &lt;p&gt;Signal : {{ avecSignal() }}&lt;/p&gt;&#10;    &lt;button type=&quot;button&quot; (click)=&quot;lancer()&quot;&gt;Lancer&lt;/button&gt;&#10;  `,&#10;})&#10;export class Rafraichissement {&#10;  protected ordinaire = &#x27;avant&#x27;;&#10;  protected readonly avecSignal = signal(&#x27;avant&#x27;);&#10;&#10;  protected lancer(): void {&#10;    setTimeout(() =&gt; (this.ordinaire = &#x27;après&#x27;), 1000); // Angular n&#x27;en sait rien&#10;    setTimeout(() =&gt; this.avecSignal.set(&#x27;après&#x27;), 3000); // Angular est prévenu&#10;  }&#10;}"><span class="cl">import { Component, signal } from '@angular/core';</span><span class="cl"> </span><span class="cl">@Component({</span><span class="cl">  selector: 'app-rafraichissement',</span><span class="cl">  template: `</span><span class="cl">    &lt;p&gt;Propriété ordinaire : {{ ordinaire }}&lt;/p&gt;</span><span class="cl">    &lt;p&gt;Signal : {{ avecSignal() }}&lt;/p&gt;</span><span class="cl">    &lt;button type="button" (click)="lancer()"&gt;Lancer&lt;/button&gt;</span><span class="cl">  `,</span><span class="cl">})</span><span class="cl">export class Rafraichissement {</span><span class="cl">  protected ordinaire = 'avant';</span><span class="cl">  protected readonly avecSignal = signal('avant');</span><span class="cl"> </span><span class="cl">  protected lancer(): void {</span><span class="cl">    setTimeout(() =&gt; (this.ordinaire = 'après'), 1000); // Angular n'en sait rien</span><span class="cl">    setTimeout(() =&gt; this.avecSignal.set('après'), 3000); // Angular est prévenu</span><span class="cl">  }</span><span class="cl">}</span></code></pre></figure>
+<p>Un projet Angular 22 n'installe plus Zone.js, la bibliothèque qui, dans les anciennes versions, prévenait Angular après
+chaque clic, chaque minuteur et chaque réponse HTTP. Angular redessine maintenant un composant quand :</p>
+<ul>
+<li>un signal lu par son template change ;</li>
+<li>un événement de son template arrive (<code>(click)</code>, <code>(input)</code>…) ;</li>
+<li>une de ses entrées (<code>input()</code>) change ;</li>
+<li>le pipe <code>async</code> reçoit une valeur.</li>
+</ul>
+<aside class="callout"><div class="ct">Ce qu&#x27;on voit</div><p>Un clic sur « Lancer ». Au bout d'une seconde, la propriété ordinaire vaut « après » dans le code, mais l'écran affiche
+toujours « avant » : Angular n'a pas été prévenu. Au bout de trois secondes, le signal change : Angular redessine le
+composant, et les deux lignes affichent « après ».</p>
+</aside>
+<aside class="callout retenir"><div class="ct">À retenir</div><ul>
+<li>Une donnée qui change et qui s'affiche : un signal, ou un observable affiché avec <code>| async</code>.</li>
+<li>Une propriété ordinaire modifiée dans un <code>setTimeout</code> ou un <code>subscribe</code> ne s'affiche pas tout de suite.</li>
+</ul>
+</aside>
+<aside class="callout experience"><div class="ct">Dans ShopFlow</div><p>C'est le sujet du jour 2 (détection des changements, <code>ChangeDetectorRef</code>, signaux) ; Zone.js y est montré en captures.</p>
+</aside>
+</article></section><section class="partie" id="p15"><div class="ph"><span class="pn">15</span><h2>Les tests</h2></div><article class="notion"><aside class="callout image"><div class="ct">L&#x27;image</div><p>Un test est un contrôle qualité automatique : on décrit ce qu'on attend, et la machine le vérifie à chaque modification,
+sans oubli ni fatigue.</p>
+</aside>
+<p>Un projet Angular 22 teste avec <strong>Vitest</strong>. Un fichier de test porte le nom du fichier testé, en <code>.spec.ts</code>.</p>
+<figure class="code"><figcaption><span class="flabel chemin">src/app/exemples/prix.spec.ts</span><button class="copy" type="button" title="Copier le code">Copier</button></figcaption><pre><code data-raw="import { RemisePipe } from &#x27;./prix&#x27;;&#10;&#10;describe(&#x27;RemisePipe&#x27;, () =&gt; {&#10;  it(&#x27;retire 10 % du prix&#x27;, () =&gt; {&#10;    expect(new RemisePipe().transform(100, 10)).toBe(90);&#10;  });&#10;});"><span class="cl">import { RemisePipe } from './prix';</span><span class="cl"> </span><span class="cl">describe('RemisePipe', () =&gt; {</span><span class="cl">  it('retire 10 % du prix', () =&gt; {</span><span class="cl">    expect(new RemisePipe().transform(100, 10)).toBe(90);</span><span class="cl">  });</span><span class="cl">});</span></code></pre></figure>
+<figure class="code"><figcaption><span class="flabel chemin">src/app/exemples/compteur.spec.ts</span><button class="copy" type="button" title="Copier le code">Copier</button></figcaption><pre><code data-raw="import { TestBed } from &#x27;@angular/core/testing&#x27;;&#10;import { Compteur } from &#x27;./compteur&#x27;;&#10;&#10;describe(&#x27;Compteur&#x27;, () =&gt; {&#10;  it(&#x27;ajoute 1 à chaque clic&#x27;, async () =&gt; {&#10;    const fixture = TestBed.createComponent(Compteur);&#10;    await fixture.whenStable(); // attend le premier affichage&#10;    const page = fixture.nativeElement as HTMLElement;&#10;&#10;    page.querySelector(&#x27;button&#x27;)!.click();&#10;    await fixture.whenStable();&#10;&#10;    expect(page.querySelector(&#x27;p&#x27;)!.textContent).toContain(&#x27;2 × 12 € = 24 €&#x27;);&#10;  });&#10;});"><span class="cl">import { TestBed } from '@angular/core/testing';</span><span class="cl">import { Compteur } from './compteur';</span><span class="cl"> </span><span class="cl">describe('Compteur', () =&gt; {</span><span class="cl">  it('ajoute 1 à chaque clic', async () =&gt; {</span><span class="cl">    const fixture = TestBed.createComponent(Compteur);</span><span class="cl">    await fixture.whenStable(); // attend le premier affichage</span><span class="cl">    const page = fixture.nativeElement as HTMLElement;</span><span class="cl"> </span><span class="cl">    page.querySelector('button')!.click();</span><span class="cl">    await fixture.whenStable();</span><span class="cl"> </span><span class="cl">    expect(page.querySelector('p')!.textContent).toContain('2 × 12 € = 24 €');</span><span class="cl">  });</span><span class="cl">});</span></code></pre></figure>
+<figure class="code"><figcaption><span class="flabel">Terminal</span><button class="copy" type="button" title="Copier le code">Copier</button></figcaption><pre><code data-raw="npx ng test --watch=false"><span class="cl">npx ng test --watch=false</span></code></pre></figure>
+<p><code>describe</code> regroupe les tests d'un élément, <code>it</code> décrit un comportement attendu, <code>expect(…).toBe(…)</code> le vérifie. Pour un
+composant, <code>TestBed.createComponent()</code> le crée hors de toute page, <code>fixture.whenStable()</code> attend qu'il soit affiché, et
+<code>fixture.nativeElement</code> donne son HTML. Sans <code>--watch=false</code>, Vitest reste ouvert et relance les tests à chaque
+enregistrement.</p>
+<aside class="callout"><div class="ct">Ce qu&#x27;on voit</div><p>« Test Files 2 passed (2) » et « Tests 2 passed (2) ».</p>
+</aside>
+<aside class="callout experience"><div class="ct">Dans ShopFlow</div><p>Pas encore de tests : ils arrivent au jour 3, avec la ligne 9 du cahier des charges (le même prix sur la carte et sur la
+fiche, vérifié par un test).</p>
+</aside>
+</article></section><section class="partie" id="p16"><div class="ph"><span class="pn">16</span><h2>Lire du code Angular plus ancien</h2></div><article class="notion"><p>La plupart des tutoriels et des réponses en ligne montrent des écritures plus anciennes. Elles fonctionnent toujours en
+Angular 22 : la carte ci-dessous, écrite à l'ancienne, se construit et s'affiche sans erreur. Il faut savoir les lire ;
+on ne les écrit plus dans du code neuf.</p>
+<figure class="code"><figcaption><span class="flabel chemin">src/app/exemples/carte-produit-ancienne.ts</span><button class="copy" type="button" title="Copier le code">Copier</button></figcaption><pre><code data-raw="import { Component, EventEmitter, Injectable, Input, Output } from &#x27;@angular/core&#x27;;&#10;import { CurrencyPipe, NgIf } from &#x27;@angular/common&#x27;;&#10;import { Produit, prixRemise } from &#x27;./produit&#x27;;&#10;&#10;@Injectable({ providedIn: &#x27;root&#x27; })&#10;export class JournalService {&#10;  ecrire(message: string): void {&#10;    console.log(message);&#10;  }&#10;}&#10;&#10;@Component({&#10;  selector: &#x27;app-carte-produit-ancienne&#x27;,&#10;  imports: [CurrencyPipe, NgIf],&#10;  template: `&#10;    &lt;h3&gt;{{ produit.titre }}&lt;/h3&gt;&#10;    &lt;p&gt;{{ prix | currency: &#x27;EUR&#x27; }}&lt;/p&gt;&#10;    &lt;p *ngIf=&quot;!produit.enStock&quot;&gt;Épuisé&lt;/p&gt;&#10;    &lt;button type=&quot;button&quot; [disabled]=&quot;!produit.enStock&quot; (click)=&quot;ajouter()&quot;&gt;Ajouter&lt;/button&gt;&#10;  `,&#10;})&#10;export class CarteProduitAncienneComponent {&#10;  @Input({ required: true }) produit!: Produit;&#10;  @Output() ajout = new EventEmitter&lt;Produit&gt;();&#10;&#10;  constructor(private journal: JournalService) {}&#10;&#10;  get prix(): number {&#10;    return prixRemise(this.produit);&#10;  }&#10;&#10;  ajouter(): void {&#10;    this.journal.ecrire(&#x27;Ajout : &#x27; + this.produit.titre);&#10;    this.ajout.emit(this.produit);&#10;  }&#10;}"><span class="cl">import { Component, EventEmitter, Injectable, Input, Output } from '@angular/core';</span><span class="cl">import { CurrencyPipe, NgIf } from '@angular/common';</span><span class="cl">import { Produit, prixRemise } from './produit';</span><span class="cl"> </span><span class="cl">@Injectable({ providedIn: 'root' })</span><span class="cl">export class JournalService {</span><span class="cl">  ecrire(message: string): void {</span><span class="cl">    console.log(message);</span><span class="cl">  }</span><span class="cl">}</span><span class="cl"> </span><span class="cl">@Component({</span><span class="cl">  selector: 'app-carte-produit-ancienne',</span><span class="cl">  imports: [CurrencyPipe, NgIf],</span><span class="cl">  template: `</span><span class="cl">    &lt;h3&gt;{{ produit.titre }}&lt;/h3&gt;</span><span class="cl">    &lt;p&gt;{{ prix | currency: 'EUR' }}&lt;/p&gt;</span><span class="cl">    &lt;p *ngIf="!produit.enStock"&gt;Épuisé&lt;/p&gt;</span><span class="cl">    &lt;button type="button" [disabled]="!produit.enStock" (click)="ajouter()"&gt;Ajouter&lt;/button&gt;</span><span class="cl">  `,</span><span class="cl">})</span><span class="cl">export class CarteProduitAncienneComponent {</span><span class="cl">  @Input({ required: true }) produit!: Produit;</span><span class="cl">  @Output() ajout = new EventEmitter&lt;Produit&gt;();</span><span class="cl"> </span><span class="cl">  constructor(private journal: JournalService) {}</span><span class="cl"> </span><span class="cl">  get prix(): number {</span><span class="cl">    return prixRemise(this.produit);</span><span class="cl">  }</span><span class="cl"> </span><span class="cl">  ajouter(): void {</span><span class="cl">    this.journal.ecrire('Ajout : ' + this.produit.titre);</span><span class="cl">    this.ajout.emit(this.produit);</span><span class="cl">  }</span><span class="cl">}</span></code></pre></figure>
+<table>
+<thead>
+<tr>
+<th>Avant</th>
+<th>Aujourd'hui</th>
+<th>Partie</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@NgModule({ declarations: […] })</code></td>
+<td>Des composants autonomes, chacun avec ses <code>imports</code></td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>carte.component.ts</code>, <code>CarteComponent</code></td>
+<td><code>carte.ts</code>, <code>Carte</code></td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>*ngIf=&quot;…&quot;</code>, <code>*ngFor=&quot;let p of liste&quot;</code>, <code>[ngSwitch]</code></td>
+<td><code>@if</code>, <code>@for (…; track …)</code>, <code>@switch</code></td>
+<td>7</td>
+</tr>
+<tr>
+<td><code>@Input() produit!: Produit;</code></td>
+<td><code>produit = input.required&lt;Produit&gt;();</code></td>
+<td>8</td>
+</tr>
+<tr>
+<td><code>@Output() ajout = new EventEmitter&lt;Produit&gt;();</code></td>
+<td><code>ajout = output&lt;Produit&gt;();</code></td>
+<td>8</td>
+</tr>
+<tr>
+<td><code>constructor(private journal: JournalService) {}</code></td>
+<td><code>private readonly journal = inject(JournalService);</code></td>
+<td>9</td>
+</tr>
+<tr>
+<td><code>@Injectable({ providedIn: 'root' })</code></td>
+<td><code>@Service()</code></td>
+<td>9</td>
+</tr>
+<tr>
+<td><code>BehaviorSubject</code> pour un état partagé</td>
+<td><code>signal()</code></td>
+<td>4 et 10</td>
+</tr>
+<tr>
+<td><code>class AuthGuard implements CanActivate</code></td>
+<td><code>const authGuard: CanActivateFn = () =&gt; …</code></td>
+<td>jour 2</td>
+</tr>
+<tr>
+<td>Zone.js</td>
+<td>Signaux, événements du template, <code>async</code></td>
+<td>14</td>
+</tr>
+<tr>
+<td>Karma et Jasmine</td>
+<td>Vitest</td>
+<td>15</td>
+</tr>
+</tbody>
+</table>
+<aside class="callout"><div class="ct">Ce qu&#x27;on voit</div><p>Pour le rouge à lèvres, la carte ancienne affiche « Épuisé » et grise son bouton. Pour le mascara, un clic sur
+« Ajouter » écrit « Ajout : Mascara » dans la console et prévient le parent par la sortie <code>ajout</code>.</p>
+</aside>
+</article></section><section class="partie" id="p17"><div class="ph"><span class="pn">17</span><h2>Pour aller plus loin</h2></div><article class="notion"><ul>
+<li><a href="https://angular.dev">angular.dev</a> : la documentation officielle, en anglais, à jour de la dernière version.</li>
+<li><a href="https://angular.dev/tutorials/learn-angular">Learn Angular</a> : le tutoriel officiel, en petits exercices à faire dans
+le navigateur, sans rien installer.</li>
+<li><a href="https://angular.dev/essentials">Les essentiels</a> : composants, signaux, templates et injection de dépendances, en
+quelques pages.</li>
+<li>Les guides : <a href="https://angular.dev/guide/signals">signaux</a>, <a href="https://angular.dev/guide/routing">routage</a>,
+<a href="https://angular.dev/guide/forms/reactive-forms">formulaires réactifs</a>, <a href="https://angular.dev/guide/http">HttpClient</a>.</li>
+<li><a href="https://rxmarbles.com">RxMarbles</a> : les opérateurs de RxJS en schémas animés.</li>
+</ul>
+</article></section>
+<footer class="pied">ZENITH · formation Angular avancé · page de révision des bases</footer>
+</main>
+<script>document.addEventListener('click',function(e){
+ var b=e.target.closest('.copy');
+ if(b){
+  var txt=b.getAttribute('data-raw');
+  if(txt===null){var c=b.closest('figure').querySelector('code');txt=c?c.getAttribute(b.getAttribute('data-v')==='prof'?'data-raw-prof':'data-raw'):b.closest('figure').innerText}
+  var done=function(){var o=b.textContent;b.classList.add('ok');b.textContent='Copié ✓';setTimeout(function(){b.classList.remove('ok');b.textContent=o},1400)};
+  if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(txt).then(done)}
+  else{var t=document.createElement('textarea');t.value=txt;document.body.appendChild(t);t.select();try{document.execCommand('copy')}catch(_){}document.body.removeChild(t);done()}
+  return;
+ }
+ if(e.target.id==='navtoggle'){document.body.classList.toggle('open');return}
+ if(e.target.closest('#side a')){document.body.classList.remove('open')}
+});
+(function(){
+ var links=[].slice.call(document.querySelectorAll('#side a[href^="#"]'));
+ if(!('IntersectionObserver' in window)||!links.length)return;
+ var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a});
+ var io=new IntersectionObserver(function(es){es.forEach(function(en){
+  if(en.isIntersecting){links.forEach(function(a){a.classList.remove('on')});var a=map[en.target.id];if(a)a.classList.add('on')}
+ })},{rootMargin:'-10% 0px -80% 0px'});
+ Object.keys(map).forEach(function(id){var el=document.getElementById(id);if(el)io.observe(el)});
+})();</script>
+</body></html>
