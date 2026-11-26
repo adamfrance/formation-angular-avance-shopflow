@@ -1,0 +1,27 @@
+<h1 i18n="Titre de la page du catalogue@@catalogue.titre">Catalogue</h1>
+@if (page(); as page) {
+  <p class="sous-titre" i18n="@@catalogue.total">{page.total, plural, =0 {Aucun produit} =1 {1 produit} other {{{ page.total }} produits}}</p>
+  <div class="barre-outils">
+    <input class="champ recherche" type="search" placeholder="Rechercher un produit…" i18n-placeholder="@@catalogue.recherche" (input)="onRecherche($event)" />
+    <select class="champ" (change)="onCategorie($event)">
+      <option value="" i18n="@@catalogue.toutes">Toutes les catégories</option>
+      @for (c of categories(); track c.slug) {
+        <option [value]="c.slug">{{ c.name }}</option>
+      }
+    </select>
+    <select class="champ" (change)="onTri($event)">
+      <option value="nom" i18n="@@catalogue.tri.nom">Trier par nom</option>
+      <option value="prix-croissant" i18n="@@catalogue.tri.croissant">Prix croissant</option>
+      <option value="prix-decroissant" i18n="@@catalogue.tri.decroissant">Prix décroissant</option>
+    </select>
+  </div>
+  <div class="grille">
+    @for (p of produits(); track p.id) {
+      <sf-product-card [product]="p" [prioritaire]="$index < 4" (ajout)="panier.add($event)" />
+    } @empty {
+      <p class="info" i18n="@@catalogue.vide">Aucun produit ne correspond à votre recherche.</p>
+    }
+  </div>
+} @else {
+  <p class="info" i18n="@@catalogue.chargement">Chargement du catalogue…</p>
+}

@@ -1,0 +1,17 @@
+<header class="entete">
+  <a class="logo" routerLink="/">ShopFlow</a>
+  <nav class="nav">
+    <a routerLink="/catalogue" routerLinkActive="actif" i18n="@@nav.catalogue">Catalogue</a>
+    <a routerLink="/panier" routerLinkActive="actif" i18n="@@nav.panier">Panier ({{ nbArticles() }})</a>
+    <a routerLink="/mes-commandes" routerLinkActive="actif" i18n="@@nav.commandes">Mes commandes</a>
+    <a routerLink="/admin" routerLinkActive="actif" i18n="@@nav.admin">Administration</a>
+  </nav>
+  <div class="entete-actions">
+    @if (utilisateur(); as u) {
+      <span class="info" i18n="@@entete.bonjour">Bonjour {{ u.firstName }}</span>
+      <button class="bouton bouton-secondaire" type="button" (click)="deconnecter()" i18n="@@entete.deconnexion">Déconnexion</button>
+    } @else {
+      <a class="bouton" routerLink="/connexion" i18n="@@entete.connexion">Connexion</a>
+    }
+  </div>
+</header>

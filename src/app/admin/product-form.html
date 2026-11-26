@@ -1,0 +1,50 @@
+<h2>Nouveau produit</h2>
+@if (cree(); as message) {
+  <p class="succes">{{ message }}</p>
+}
+<form class="formulaire" [formGroup]="formulaire" (ngSubmit)="enregistrer()">
+  @for (champ of champs; track champ.cle) {
+    @let controle = formulaire.controls[champ.cle];
+    <div class="groupe">
+      <label [for]="champ.cle">{{ champ.libelle }}{{ champ.requis ? ' *' : '' }}</label>
+      @switch (champ.type) {
+        @case ('zone') {
+          <textarea class="champ" rows="3" [id]="champ.cle" [formControlName]="champ.cle"></textarea>
+        }
+        @case ('nombre') {
+          <input class="champ" type="number" step="0.01" [id]="champ.cle" [formControlName]="champ.cle" />
+        }
+        @case ('liste') {
+          <select class="champ" [id]="champ.cle" [formControlName]="champ.cle">
+            <option value="">Choisir…</option>
+            @for (o of champ.options; track o) {
+              <option [value]="o">{{ o }}</option>
+            }
+          </select>
+        }
+        @case ('quantite') {
+          <sf-quantite [id]="champ.cle" [formControlName]="champ.cle" />
+        }
+        @default {
+          <input class="champ" [id]="champ.cle" [formControlName]="champ.cle" />
+        }
+      }
+      @if (controle.touched && controle.hasError('required')) {
+        <p class="erreur">Champ obligatoire.</p>
+      } @else if (controle.touched && controle.hasError('min')) {
+        <p class="erreur">Au moins {{ controle.getError('min').min }}.</p>
+      }
+    </div>
+  }
+  <div class="groupe">
+    <span class="libelle">Étiquettes</span>
+    @for (tag of tags.controls; track tag; let i = $index) {
+      <div class="ligne-tag">
+        <input class="champ" [formControl]="tag" [attr.aria-label]="'Étiquette ' + (i + 1)" />
+        <button class="bouton bouton-secondaire" type="button" (click)="retirerTag(i)">Retirer</button>
+      </div>
+    }
+    <button class="bouton bouton-secondaire" type="button" (click)="ajouterTag()">Ajouter une étiquette</button>
+  </div>
+  <button class="bouton" type="submit">Enregistrer</button>
+</form>

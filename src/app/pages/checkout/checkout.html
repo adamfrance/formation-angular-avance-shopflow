@@ -1,0 +1,53 @@
+<h1>Commande</h1>
+<form class="formulaire" [formRoot]="formulaire">
+  @for (erreur of formulaire().errors(); track erreur.kind) {
+    <p class="alerte">{{ erreur.message }}</p>
+  }
+  @let nom = formulaire.nom;
+  <div class="groupe">
+    <label for="nom">Nom complet</label>
+    <input id="nom" class="champ" [formField]="nom" [class.invalide]="nom().touched() && nom().invalid()" />
+    @if (nom().touched()) {
+      @for (erreur of nom().errors(); track erreur.kind) {
+        <p class="erreur">{{ erreur.message }}</p>
+      }
+    }
+  </div>
+  @let email = formulaire.email;
+  <div class="groupe">
+    <label for="email">E-mail</label>
+    <input id="email" class="champ" type="email" [formField]="email" [class.invalide]="email().touched() && email().invalid()" />
+    @if (email().touched()) {
+      @for (erreur of email().errors(); track erreur.kind) {
+        <p class="erreur">{{ erreur.message }}</p>
+      }
+    }
+  </div>
+  <fieldset class="groupe">
+    <legend>Adresse de livraison</legend>
+    @let livraison = formulaire.livraison;
+    <label for="rue">Rue</label>
+    <input id="rue" class="champ" [formField]="livraison.rue" [class.invalide]="livraison.rue().touched() && livraison.rue().invalid()" />
+    @if (livraison.rue().touched()) {
+      @for (erreur of livraison.rue().errors(); track erreur.kind) {
+        <p class="erreur">{{ erreur.message }}</p>
+      }
+    }
+    <label for="codePostal">Code postal</label>
+    <input id="codePostal" class="champ" inputmode="numeric" [formField]="livraison.codePostal" [class.invalide]="livraison.codePostal().touched() && livraison.codePostal().invalid()" />
+    @if (livraison.codePostal().touched()) {
+      @for (erreur of livraison.codePostal().errors(); track erreur.kind) {
+        <p class="erreur">{{ erreur.message }}</p>
+      }
+    }
+    <label for="ville">Ville</label>
+    <input id="ville" class="champ" [formField]="livraison.ville" [class.invalide]="livraison.ville().touched() && livraison.ville().invalid()" />
+    @if (livraison.ville().touched()) {
+      @for (erreur of livraison.ville().errors(); track erreur.kind) {
+        <p class="erreur">{{ erreur.message }}</p>
+      }
+    }
+  </fieldset>
+  <p class="total">Montant à payer : {{ total() | currency: 'EUR' }}</p>
+  <button class="bouton" type="submit" [disabled]="formulaire().submitting() || !!formulaire().getError('panierVide')">Valider la commande</button>
+</form>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="fr" target-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="carte.ajouter" datatype="html">
+        <source>Ajouter au panier</source>
+        <target>Add to cart</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/shared/ui/src/lib/product-card/product-card.html</context>
+          <context context-type="linenumber">16,18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.catalogue" datatype="html">
+        <source>Catalogue</source>
+        <target>Catalog</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/header/header.html</context>
+          <context context-type="linenumber">4,5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.panier" datatype="html">
+        <source>Panier (<x id="INTERPOLATION" equiv-text="{{ nbArticles() }}"/>)</source>
+        <target>Cart (<x id="INTERPOLATION" equiv-text="{{ nbArticles() }}"/>)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/header/header.html</context>
+          <context context-type="linenumber">5,6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.commandes" datatype="html">
+        <source>Mes commandes</source>
+        <target>My orders</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/header/header.html</context>
+          <context context-type="linenumber">6,7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.admin" datatype="html">
+        <source>Administration</source>
+        <target>Admin</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/header/header.html</context>
+          <context context-type="linenumber">7,9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="entete.bonjour" datatype="html">
+        <source>Bonjour <x id="INTERPOLATION" equiv-text="{{ u.firstName }}"/></source>
+        <target>Hello <x id="INTERPOLATION" equiv-text="{{ u.firstName }}"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/header/header.html</context>
+          <context context-type="linenumber">11,12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="entete.deconnexion" datatype="html">
+        <source>Déconnexion</source>
+        <target>Log out</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/header/header.html</context>
+          <context context-type="linenumber">12,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="entete.connexion" datatype="html">
+        <source>Connexion</source>
+        <target>Log in</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/header/header.html</context>
+          <context context-type="linenumber">14,18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogue.titre" datatype="html">
+        <source>Catalogue</source>
+        <target>Catalog</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/catalogue/catalogue.html</context>
+          <context context-type="linenumber">1,3</context>
+        </context-group>
+        <note priority="1" from="description">Titre de la page du catalogue</note>
+      </trans-unit>
+      <trans-unit id="catalogue.total" datatype="html">
+        <source>{VAR_PLURAL, plural, =0 {Aucun produit} =1 {1 produit} other {<x id="INTERPOLATION"/> produits}}</source>
+        <target>{VAR_PLURAL, plural, =0 {No products} =1 {1 product} other {<x id="INTERPOLATION"/> products}}</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/catalogue/catalogue.html</context>
+          <context context-type="linenumber">3,4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogue.recherche" datatype="html">
+        <source>Rechercher un produit…</source>
+        <target>Search for a product…</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/catalogue/catalogue.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogue.toutes" datatype="html">
+        <source>Toutes les catégories</source>
+        <target>All categories</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/catalogue/catalogue.html</context>
+          <context context-type="linenumber">7,8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogue.tri.nom" datatype="html">
+        <source>Trier par nom</source>
+        <target>Sort by name</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/catalogue/catalogue.html</context>
+          <context context-type="linenumber">13,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogue.tri.croissant" datatype="html">
+        <source>Prix croissant</source>
+        <target>Price: low to high</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/catalogue/catalogue.html</context>
+          <context context-type="linenumber">14,15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogue.tri.decroissant" datatype="html">
+        <source>Prix décroissant</source>
+        <target>Price: high to low</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/catalogue/catalogue.html</context>
+          <context context-type="linenumber">15,18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogue.vide" datatype="html">
+        <source>Aucun produit ne correspond à votre recherche.</source>
+        <target>No product matches your search.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/catalogue/catalogue.html</context>
+          <context context-type="linenumber">22,25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalogue.chargement" datatype="html">
+        <source>Chargement du catalogue…</source>
+        <target>Loading the catalog…</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/catalogue/catalogue.html</context>
+          <context context-type="linenumber">26,28</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

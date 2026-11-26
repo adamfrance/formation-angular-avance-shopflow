@@ -1,0 +1,124 @@
+{
+  "name": "shopflow",
+  "$schema": "node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "src",
+  "prefix": "app",
+  "i18n": {
+    "sourceLocale": "fr",
+    "locales": {
+      "en": {
+        "translation": "src/locale/messages.en.xlf"
+      }
+    }
+  },
+  "tags": [
+    "type:app"
+  ],
+  "generators": {},
+  "targets": {
+    "build": {
+      "executor": "@angular/build:application",
+      "defaultConfiguration": "production",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "browser": "src/main.ts",
+        "tsConfig": "tsconfig.app.json",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "public"
+          }
+        ],
+        "styles": [
+          "src/styles.css"
+        ],
+        "outputPath": "dist/shopflow",
+        "polyfills": [
+          "@angular/localize/init"
+        ],
+        "server": "src/main.server.ts",
+        "ssr": {
+          "entry": "src/server.ts"
+        },
+        "outputMode": "server",
+        "security": {
+          "allowedHosts": [
+            "localhost"
+          ]
+        }
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kB",
+              "maximumError": "1MB"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "4kB",
+              "maximumError": "8kB"
+            }
+          ],
+          "outputHashing": "all",
+          "localize": true
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        },
+        "en": {
+          "localize": [
+            "en"
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@angular/build:dev-server",
+      "defaultConfiguration": "development",
+      "configurations": {
+        "production": {
+          "buildTarget": "shopflow:build:production"
+        },
+        "development": {
+          "buildTarget": "shopflow:build:development"
+        },
+        "en": {
+          "buildTarget": "shopflow:build:development,en"
+        }
+      }
+    },
+    "test": {
+      "executor": "@angular/build:unit-test",
+      "options": {
+        "runner": "karma",
+        "include": [
+          "**/*.spec.ts",
+          "../libs/**/*.spec.ts"
+        ]
+      }
+    },
+    "doc": {
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{workspaceRoot}/dist/doc"
+      ],
+      "cache": true,
+      "options": {
+        "command": "compodoc -p tsconfig.doc.json -d dist/doc"
+      }
+    },
+    "extract-i18n": {
+      "executor": "@angular/build:extract-i18n",
+      "options": {
+        "buildTarget": "shopflow:build"
+      }
+    }
+  }
+}

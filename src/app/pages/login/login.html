@@ -1,0 +1,28 @@
+<h1>Connexion</h1>
+<form class="formulaire" [formRoot]="connexion">
+  <p class="info">Compte de démonstration : emilys / emilyspass</p>
+  @let identifiant = connexion.identifiant;
+  <div class="groupe">
+    <label for="identifiant">Identifiant</label>
+    <input id="identifiant" class="champ" autocomplete="username" [formField]="identifiant" />
+    @if (identifiant().touched()) {
+      @for (erreur of identifiant().errors(); track erreur.kind) {
+        <p class="erreur">{{ erreur.message }}</p>
+      }
+    }
+  </div>
+  @let motDePasse = connexion.motDePasse;
+  <div class="groupe">
+    <label for="motDePasse">Mot de passe</label>
+    <input id="motDePasse" class="champ" type="password" autocomplete="current-password" [formField]="motDePasse" />
+    @if (motDePasse().touched()) {
+      @for (erreur of motDePasse().errors(); track erreur.kind) {
+        <p class="erreur">{{ erreur.message }}</p>
+      }
+    }
+  </div>
+  @for (erreur of connexion().errors(); track erreur.kind) {
+    <p class="alerte">{{ erreur.message }}</p>
+  }
+  <button class="bouton" type="submit" [disabled]="connexion().submitting()">Se connecter</button>
+</form>

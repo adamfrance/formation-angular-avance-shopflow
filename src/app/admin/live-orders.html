@@ -1,0 +1,17 @@
+<section class="panneau">
+  <h2>Dernières commandes</h2>
+  <p>
+    <button class="bouton bouton-secondaire" type="button" (click)="basculer()">{{ fige ? 'Reprendre l’actualisation' : 'Figer l’affichage' }}</button>
+    @if (fige) {
+      <button class="bouton bouton-secondaire" type="button" (click)="actualiser()">Actualiser maintenant</button>
+    }
+  </p>
+  @if (flux$ | async; as flux) {
+    <p class="info">Actualisé à {{ flux.date | date: 'HH:mm:ss' }}</p>
+    <ul class="liste-simple">
+      @for (c of flux.commandes; track c.id) {
+        <li>Commande n° {{ c.id }} : {{ c.totalQuantity }} article(s), {{ c.discountedTotal | currency: 'EUR' }}</li>
+      }
+    </ul>
+  }
+</section>
